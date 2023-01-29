@@ -386,18 +386,19 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
       chunks: "all",
       cacheGroups: {
         // 针对业务组件库的缓存组
-        // commons: {
-        //   test: /[\\/]node_modules[\\/]@study[\\/]/,
-        //   name: 'commons',
-        //   chunks: 'all',
-        // },
+        commons: {
+          test: /[\\/]node_modules[\\/]@study[\\/]/,
+          name: 'commons',
+          chunks: 'all',
+        },
         // 针对 antd 的缓存组
-        // vendor: {
-        //   test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
-        //   name: 'vendor',
-        //   chunks: 'all',
-        //   enforce: true,
-        // },
+        vendor: {
+          test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
+          // 加这句可以避免异步 chunk 的 vendor 重复问题，比如 a 和 b 都依赖 moment，不加这句 moment 会被打两遍而不是被提取出来
+          chunks: 'all',
+          // 让每个依赖拥有单独的文件和 hash
+          name: ({ context }: { context: string }) => (context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/) || [])[1]
+        },
         // Extracting all CSS/less in a single file
         // styles: {
         //   name: 'styles',
