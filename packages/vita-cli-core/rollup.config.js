@@ -3,14 +3,14 @@ const externals = require("rollup-plugin-node-externals");
 const typescript = require("@rollup/plugin-typescript");
 
 module.exports = {
-  input: 'src/cli.ts',
+  input: "src/index.ts",
   output: [
     {
       dir: "dist",
       format: "cjs",
       preserveModules: true,
-      preserveModulesRoot: 'src',
-    }
+      preserveModulesRoot: "src",
+    },
   ],
   plugins: [
     resolve(),
@@ -18,5 +18,5 @@ module.exports = {
       devDeps: false,
     }),
     typescript(),
-  ]
-}
+  ],
+};
