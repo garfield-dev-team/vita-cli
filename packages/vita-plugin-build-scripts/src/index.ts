@@ -9,14 +9,14 @@ class BuildScriptsPlugin {
       .option("--https", `[boolean] use TLS + HTTP/2`)
       .option("--open [path]", `[boolean | string] open browser on startup`)
       .action(() => {
-        require("./scripts/serve");
+        import("./scripts/serve");
       });
 
     cli
       .command("build", "create an optimized production build")
       .option("--analyze", `[boolean] build and run bundle analyzer`)
       .action(async ({ analyze }) => {
-        require("./scripts/build");
+        import("./scripts/build");
       });
   }
 }

@@ -2,7 +2,10 @@
   "name": "@study/vita-plugin-build-scripts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup -c"
   },
