@@ -109,9 +109,43 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
       .use("babel-loader")
         .loader(require.resolve("babel-loader"))
         .options({
+          presets: [
+            "@babel/preset-typescript",
+            [
+              "@babel/preset-env",
+              {
+                modules: false,
+                useBuiltIns: "entry",
+                corejs: "3.0"
+              }
+            ],
+            [
+              "@babel/preset-react",
+              {
+                runtime: "automatic",
+              }
+            ]
+          ],
+          babelrc: false,
+          configFile: false,
           plugins: [
             // 开发环境启用 `react-refresh` 热更新 React 组件
             isEnvDevelopment && require.resolve("react-refresh/babel"),
+            [
+              "@babel/plugin-transform-runtime",
+              {
+                // 不需要该插件引入 polyfill
+                // 默认就是 false
+                corejs: false,
+                // helper 函数从 @babel/runtime 引入
+                // 默认就是 true
+                helpers: true,
+                // regeneratorRuntime 是否通过模块导入（Babel 7.18.0 后支持）
+                // 如果为 false 则从全局作用域获取
+                // 默认为 true
+                regenerator: true,
+              }
+            ]
           ].filter(Boolean),
           // 启用 babel-loader 缓存能力
           // Webpack5 自带的持久化缓存粒度太大，修改配置文件就会导致缓存失效
