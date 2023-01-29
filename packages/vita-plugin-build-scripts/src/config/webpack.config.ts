@@ -219,7 +219,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
     .set("static", appBuild)
     .compress(true)
     .hot(true)
-    .open(true)
+    // .open(true)
     .historyApiFallback(true)
     .host("0.0.0.0")
     .port(8066);

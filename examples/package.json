@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "vita build"
+    "serve": "vita serve",
+    "build": "vita build"
   },
   "keywords": [],
   "author": "",
