@@ -12,7 +12,7 @@ Vita-cli 内部 Webpack 配置基于 `webpack-chain`、TypeScript 编写，通�
 
 Vita-cli 核心是插件机制，可以很方便地通过插件扩展功能，后期还会加入 `vita-plugin-yapi`、`vita-plugin-generator`、`vita-plugin-react-native` 等插件，目标是覆盖整个应用研发周期。
 
-插件机制的另一个优点是可以按需启用功能。如果是一个新工程，不需要 `build-scritps`，但需要微生成器，则只需要安装 `vita-plugin-generator`，无需安装 `vita-plugin-build-scripts`，极大减小依赖体积，有助于提升 CI 环境依赖安装速度，进而提升 CI 构建效率。
+插件机制的另一个优点是可以按需启用功能。如果是一个新工程，不需要 `build-scripts`，但需要微生成器，则只需要安装 `vita-plugin-generator`，无需安装 `vita-plugin-build-scripts`，极大减小依赖体积，有助于提升 CI 环境依赖安装速度，进而提升 CI 构建效率。
 
 ## Get started
 
