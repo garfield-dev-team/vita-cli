@@ -15,7 +15,9 @@ class Service {
 
   public async loadPlugins() {
     const config = await resolveConfig();
-    console.log("===", config);
+    config.plugins.forEach((plugin) => {
+      plugin.apply(this.cli);
+    });
   }
 
   public run() {
