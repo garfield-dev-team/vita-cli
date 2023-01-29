@@ -6,7 +6,7 @@
 
 部门内部有很多存量老工程基于 React Static Boilerplate 搭建，工具链过于老旧，与现有技术生态不兼容，需要手动升级工具链、编写 Webpack 配置，不可避免存在大量重复性劳动。
 
-该工具初期目标主要为了老工程快速升级 Webpack 5、Babel 7，并且附带了本人对 Webpack 配置优化最佳实践、Babel 配置最佳实践，只需要安装该命令行工具即可启用。
+该工具初期目标主要为了老工程快速升级 Webpack 5、Babel 7，并且附带了 Webpack 配置优化最佳实践、Babel 配置最佳实践，只需要安装该命令行工具即可启用。
 
 Vita-cli 内部 Webpack 配置基于 `webpack-chain`、TypeScript 编写，通过暴露 `chainWebpack` 配置，可以任意修改 Webpack 配置，尤其是 loader options、plugin options 修改非常方便。
 
