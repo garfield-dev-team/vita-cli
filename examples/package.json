@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "vita serve",
-    "build": "vita build"
+    "build:prod": "vita build"
   },
   "keywords": [],
   "author": "",
