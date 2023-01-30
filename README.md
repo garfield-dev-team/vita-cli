@@ -17,7 +17,7 @@
 
 部门内部有很多存量老工程基于 React Static Boilerplate 搭建，工具链过于老旧，与现有技术生态不兼容，需要手动升级工具链、编写 Webpack 配置，不可避免存在大量重复性劳动。
 
-该工具初期目标主要为了老工程快速升级 Webpack 5、Babel 7，整体使用体验与 CRA 类似，并且附带了 Webpack 配置优化最佳实践、Babel 配置最佳实践，只需要安装该命令行工具即可启用。为什么不直接用 CRA 或者 `react-scripts`，CRA 主要问题是配置不透明，而且很难根据业务需求进行定制（例如 `SplitChunks`），而且 CRA 只能构建单入口的 SPA 应用，不支持多入口，也不支持 SSR 应用，无法满足复杂业务场景需要。
+该工具初期目标主要为了老工程快速升级 Webpack 5、Babel 7，整体使用体验与 CRA 类似，并且附带了 Webpack 配置优化最佳实践、Babel 配置最佳实践，只需要安装该命令行工具即可启用。为什么不直接用 CRA 或者 `react-scripts`，CRA 主要问题是配置不透明，而且很难根据业务需求进行定制（例如 `SplitChunks`），而且 CRA 只能构建单入口的 SPA 应用，不支持多入口，也不支持 SSR 应用，无法满足复杂业务场景需要。更重要的原因是，CRA 停止维护超过 5 个月（2022/4/13 发布 v5.0.1 之后就没有再更新过），已经积累了超过 1500 个 issue。
 
 Vita-cli 内部 Webpack 配置基于 `webpack-chain`、TypeScript 编写，通过暴露 `chainWebpack` 配置，可以任意修改 Webpack 配置，尤其是 loader options、plugin options 修改非常方便。除了直接修改 Webpack 配置，vita-cli 借鉴 UMI 加入了一些 **启发性配置**，无需关系配置细节，可以专注于业务开发。
 
