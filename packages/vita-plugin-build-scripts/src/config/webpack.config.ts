@@ -136,6 +136,8 @@ export async function configFactory({
           ].filter(Boolean),
           babelrc: false,
           configFile: false,
+          // 除了 `@babel/plugin-proposal-decorators`、`@babel/plugin-proposal-private-methods` 仍在提案阶段
+          // 其他语法已经全部纳入 `@babel/preset-env`，无需单独安装语法插件
           plugins: [
             // 开发环境启用 `react-refresh` 热更新 React 组件
             isEnvDevelopment && require.resolve("react-refresh/babel"),
@@ -169,47 +171,45 @@ export async function configFactory({
 
   config.module
     .rule("svg")
-      .test(/\.svg$/)
-      .issuer({
-        and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-      })
-      .use("@svgr/webpack")
-        .loader(require.resolve("@svgr/webpack"))
-        .options({
-          prettier: false,
-          svgo: false,
-          svgoConfig: {
-            plugins: [{ removeViewBox: false }],
-          },
-          titleProp: true,
-          ref: true,
-        })
-        .end()
-      .use("file-loader")
-        .loader(require.resolve("file-loader"))
-        .options({
-          name: "static/media/[name].[hash].[ext]",
-        })
-        .end()
-      .end();
+    .test(/\.svg$/)
+    .issuer({
+      and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
+    })
+    .use("@svgr/webpack")
+    .loader(require.resolve("@svgr/webpack"))
+    .options({
+      prettier: false,
+      svgo: false,
+      svgoConfig: {
+        plugins: [{ removeViewBox: false }],
+      },
+      titleProp: true,
+      ref: true,
+    })
+    .end()
+    .use("file-loader")
+    .loader(require.resolve("file-loader"))
+    .options({
+      name: "static/media/[name].[hash].[ext]",
+    })
+    .end()
+    .end();
 
   config.module
     .rule("font")
-      .test(/\.(woff|woff2|ttf|eot|svg)$/)
-      .exclude
-        .add(/node_modules/)
-        .end()
-      .type("asset")
-      .end();
+    .test(/\.(woff|woff2|ttf|eot|svg)$/)
+    .exclude.add(/node_modules/)
+    .end()
+    .type("asset")
+    .end();
 
   config.module
     .rule("image")
-      .test(/\.(png|jpg|gif|jpeg|ico|cur)$/)
-      .exclude
-        .add(/node_modules/)
-        .end()
-      .type("asset")
-      .end();
+    .test(/\.(png|jpg|gif|jpeg|ico|cur)$/)
+    .exclude.add(/node_modules/)
+    .end()
+    .type("asset")
+    .end();
 
   // cache
   config.cache({
@@ -236,164 +236,161 @@ export async function configFactory({
   // plugins
   config
     .plugin("webpackbar")
-      .use(Webpackbar)
-      .end()
+    .use(Webpackbar)
+    .end()
     .plugin("html")
-      .use(HtmlWebpackPlugin, [
-        {
-          template: appHtml,
-          title: "React App",
-          filename: "index.html",
-          ...(isEnvProduction && {
-            minify: {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeRedundantAttributes: true,
-              useShortDoctype: true,
-              removeEmptyAttributes: true,
-              removeStyleLinkTypeAttributes: true,
-              keepClosingSlash: true,
-              minifyJS: true,
-              minifyCSS: true,
-              minifyURLs: true,
-            },
-          }),
-        },
-      ])
-      .end()
+    .use(HtmlWebpackPlugin, [
+      {
+        template: appHtml,
+        title: "React App",
+        filename: "index.html",
+        ...(isEnvProduction && {
+          minify: {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeRedundantAttributes: true,
+            useShortDoctype: true,
+            removeEmptyAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            keepClosingSlash: true,
+            minifyJS: true,
+            minifyCSS: true,
+            minifyURLs: true,
+          },
+        }),
+      },
+    ])
+    .end()
     .plugin("define")
-      .use(webpack.DefinePlugin, [
-        {
-          "process.env.NODE_ENV": isEnvDevelopment
-            ? '"development"'
-            : '"production"',
-          __DEV__: isEnvDevelopment,
-        },
-      ])
-      .end();
+    .use(webpack.DefinePlugin, [
+      {
+        "process.env.NODE_ENV": isEnvDevelopment
+          ? '"development"'
+          : '"production"',
+        __DEV__: isEnvDevelopment,
+      },
+    ])
+    .end();
 
   if (isEnvDevelopment) {
     config
       .plugin("react-refresh-webpack-plugin")
-        .use(ReactRefreshWebpackPlugin, [
-          {
-            overlay: false,
-          },
-        ])
-        .end()
+      .use(ReactRefreshWebpackPlugin, [
+        {
+          overlay: false,
+        },
+      ])
+      .end()
       .plugin("case-sensitive-paths-webpack-plugin")
-        .use(CaseSensitivePathsPlugin)
-        .end();
+      .use(CaseSensitivePathsPlugin)
+      .end();
   }
 
   if (isEnvProduction) {
     config
       .plugin("mini-css-extract-plugin")
-        .use(MiniCssExtractPlugin, [
-          {
-            filename: "static/css/[name].[contenthash:8].css",
-            chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
-            // 解决用了 antd 组件库之后，抽提样式冲突问题
-            ignoreOrder: true,
-          },
-        ])
-        .end();
+      .use(MiniCssExtractPlugin, [
+        {
+          filename: "static/css/[name].[contenthash:8].css",
+          chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+          // 解决用了 antd 组件库之后，抽提样式冲突问题
+          ignoreOrder: true,
+        },
+      ])
+      .end();
   }
 
   if (useTypeScript) {
     config
       .plugin("fork-ts-checker-webpack-plugin")
-        .use(ForkTsCheckerWebpackPlugin, [
-          {
-            async: isEnvDevelopment,
-            typescript: {
-              typescriptPath: resolve.sync("typescript", {
-                basedir: appNodeModules,
-              }),
-              configOverwrite: {
-                compilerOptions: {
-                  sourceMap: isEnvDevelopment,
-                  skipLibCheck: true,
-                  inlineSourceMap: false,
-                  declarationMap: false,
-                  noEmit: true,
-                  incremental: true,
-                  tsBuildInfoFile: appTsBuildInfoFile,
-                },
+      .use(ForkTsCheckerWebpackPlugin, [
+        {
+          async: isEnvDevelopment,
+          typescript: {
+            typescriptPath: resolve.sync("typescript", {
+              basedir: appNodeModules,
+            }),
+            configOverwrite: {
+              compilerOptions: {
+                sourceMap: isEnvDevelopment,
+                skipLibCheck: true,
+                inlineSourceMap: false,
+                declarationMap: false,
+                noEmit: true,
+                incremental: true,
+                tsBuildInfoFile: appTsBuildInfoFile,
               },
-              context: appPath,
-              diagnosticOptions: {
-                syntactic: true,
-              },
-              mode: "write-references",
-              // profile: true,
             },
-            issue: {
-              // This one is specifically to match during CI tests,
-              // as micromatch doesn't match
-              // '../cra-template-typescript/template/src/App.tsx'
-              // otherwise.
-              include: [
-                { file: "../**/src/**/*.{ts,tsx}" },
-                { file: "**/src/**/*.{ts,tsx}" },
-              ],
-              exclude: [
-                { file: "**/src/**/__tests__/**" },
-                { file: "**/src/**/?(*.){spec|test}.*" },
-                { file: "**/src/setupProxy.*" },
-                { file: "**/src/setupTests.*" },
-              ],
+            context: appPath,
+            diagnosticOptions: {
+              syntactic: true,
             },
-            logger: {
-              infrastructure: "silent",
-            },
+            mode: "write-references",
+            // profile: true,
           },
-        ])
-        .end();
+          issue: {
+            // This one is specifically to match during CI tests,
+            // as micromatch doesn't match
+            // '../cra-template-typescript/template/src/App.tsx'
+            // otherwise.
+            include: [
+              { file: "../**/src/**/*.{ts,tsx}" },
+              { file: "**/src/**/*.{ts,tsx}" },
+            ],
+            exclude: [
+              { file: "**/src/**/__tests__/**" },
+              { file: "**/src/**/?(*.){spec|test}.*" },
+              { file: "**/src/setupProxy.*" },
+              { file: "**/src/setupTests.*" },
+            ],
+          },
+          logger: {
+            infrastructure: "silent",
+          },
+        },
+      ])
+      .end();
   }
 
   if (useBundleAnalyzer) {
-    config
-      .plugin("analyze")
-        .use(BundleAnalyzerPlugin)
-        .end();
+    config.plugin("analyze").use(BundleAnalyzerPlugin).end();
   }
 
   // optimization
   config.optimization
     .minimize(isEnvProduction)
     .minimizer("terser")
-      .use(TerserPlugin, [
-        {
-          minify: TerserPlugin.terserMinify,
-          extractComments: false,
-          terserOptions: {
-            parse: {
-              ecma: 8,
-            },
-            compress: {
-              ecma: 5,
-              warnings: false,
-              comparisons: false,
-              inline: 2,
-              // 生产环境打包移除 console
-              drop_console: true,
-            },
-            mangle: {
-              safari10: true,
-            },
-            output: {
-              ecma: 5,
-              comments: false,
-              ascii_only: true,
-            },
+    .use(TerserPlugin, [
+      {
+        minify: TerserPlugin.terserMinify,
+        extractComments: false,
+        terserOptions: {
+          parse: {
+            ecma: 8,
           },
-        } as any,
-      ])
-      .end()
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2,
+            // 生产环境打包移除 console
+            drop_console: true,
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            ascii_only: true,
+          },
+        },
+      } as any,
+    ])
+    .end()
     .minimizer("css-minimizer")
-      .use(CssMinimizerPlugin)
-      .end()
+    .use(CssMinimizerPlugin)
+    .end()
     .runtimeChunk("single")
     .splitChunks({
       chunks: "all",
