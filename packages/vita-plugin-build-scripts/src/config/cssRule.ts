@@ -12,7 +12,7 @@ type IConfig = {
   loaderOptions?: {};
 };
 
-const RULE_CONFIG: IConfig[] = [
+const createRuleConfig = ({ theme }: IConfigCtx): IConfig[] => ([
   {
     name: "css",
     test: /\.css$/i,
@@ -36,7 +36,7 @@ const RULE_CONFIG: IConfig[] = [
     loaderOptions: {
       lessOptions: {
         javascriptEnabled: true,
-        modifyVars: {},
+        modifyVars: theme,
       },
     }
   },
@@ -49,7 +49,7 @@ const RULE_CONFIG: IConfig[] = [
     loaderOptions: {
       lessOptions: {
         javascriptEnabled: true,
-        modifyVars: {},
+        modifyVars: theme,
       },
     }
   },
@@ -70,7 +70,7 @@ const RULE_CONFIG: IConfig[] = [
     loader: "sass-loader",
     loaderOptions: {},
   },
-];
+]);
 
 const createBaseRule = (
   { mode, config }: IConfigCtx,
@@ -147,7 +147,9 @@ const createBaseRule = (
 }
 
 export const addCSSRules = (ctx: IConfigCtx) => {
-  RULE_CONFIG.forEach((cssRule) => {
+  const ruleConfig = createRuleConfig(ctx);
+
+  ruleConfig.forEach((cssRule) => {
     const rule = createBaseRule(ctx, cssRule);
     if (cssRule.loader) {
       rule

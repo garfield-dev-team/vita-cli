@@ -37,6 +37,7 @@ type IOpts = {
 export type IConfigCtx = {
   mode: WebpackEnvEnum;
   config: Config;
+  theme: {};
 };
 
 export async function configFactory({
@@ -46,6 +47,7 @@ export async function configFactory({
   enableNewJsxTransform,
   proxy,
   publicPath,
+  theme = {},
   chainWebpack,
   modifyWebpackConfig,
 }: IOpts) {
@@ -59,6 +61,7 @@ export async function configFactory({
   const context: IConfigCtx = {
     mode,
     config,
+    theme,
   };
 
   // mode
