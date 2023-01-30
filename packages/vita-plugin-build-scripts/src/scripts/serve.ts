@@ -16,6 +16,8 @@ import { WebpackEnvEnum } from "../utils/constants";
 async function runServer() {
   console.log(chalk.cyan("Starting the development server...\n"));
 
+  process.env.NODE_ENV = "development";
+
   const config = await configFactory({
     mode: WebpackEnvEnum.DEVELOPMENT,
   });

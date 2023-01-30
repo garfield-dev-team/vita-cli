@@ -14,6 +14,8 @@ import { WebpackEnvEnum } from "../utils/constants";
 async function runBuild() {
   console.log("Creating an optimized production build...");
 
+  process.env.NODE_ENV = "production";
+
   const config = await configFactory({
     mode: WebpackEnvEnum.PRODUCTION,
   });
