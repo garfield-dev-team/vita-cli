@@ -73,10 +73,10 @@ const createRuleConfig = ({ theme }: IConfigCtx): IConfig[] => ([
 ]);
 
 const createBaseRule = (
-  { mode, config }: IConfigCtx,
+  { env, config }: IConfigCtx,
   { name, test, exclude, importLoaders, isCSSModules }: IConfig
 ) => {
-  const isEnvDevelopment = mode === WebpackEnvEnum.DEVELOPMENT;
+  const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
   const rule = config.module.rule(name).test(test);
   if (exclude) {
     rule

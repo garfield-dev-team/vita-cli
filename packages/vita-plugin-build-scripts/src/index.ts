@@ -10,7 +10,8 @@ class BuildScriptsPlugin {
       .option("--port <port>", `[number] specify port`)
       .option("--https", `[boolean] use TLS + HTTP/2`)
       .option("--open", `[boolean] open browser on startup`)
-      .action(async ({ host, port, https, open }: IDevServerOpts) => {
+      .option("--mode <mode>", `[string] set env mode`)
+      .action(async ({ host, port, https, open, mode }: IDevServerOpts) => {
         const module = await import("./scripts/serve");
         await module.serve({
           ...options,
@@ -18,17 +19,20 @@ class BuildScriptsPlugin {
           ...(port !== undefined && { port }),
           ...(https !== undefined && { https }),
           ...(open !== undefined && { open }),
+          ...(mode !== undefined && { mode }),
         });
       });
 
     cli
       .command("build", "create an optimized production build")
       .option("--analyze", `[boolean] build and run bundle analyzer`)
-      .action(async ({ analyze }: { analyze?: true }) => {
+      .option("--mode <mode>", `[string] set env mode`)
+      .action(async ({ analyze, mode }: { analyze?: true; mode?: string }) => {
         const module = await import("./scripts/build");
         await module.build({
           ...options,
           ...(analyze !== undefined && { analyze }),
+          ...(mode !== undefined && { mode }),
         });
       });
   }

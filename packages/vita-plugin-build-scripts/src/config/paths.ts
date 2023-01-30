@@ -4,7 +4,6 @@ import path from "node:path";
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath: string) => path.resolve(appDirectory, relativePath);
 
-const dotenv = resolveApp(".env");
 const appPath = resolveApp(".");
 const appBuild = resolveApp(process.env.BUILD_PATH || "dist");
 const appPublic = resolveApp("public");
@@ -21,7 +20,6 @@ const appTsBuildInfoFile = resolveApp(
 
 export {
   appPath,
-  dotenv,
   appBuild,
   appPublic,
   appHtml,

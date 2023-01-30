@@ -29,19 +29,20 @@ import {
 import { addCSSRules } from "./cssRule";
 import { WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
+import { getClientEnviron } from "../utils/helpers";
 
 type IOpts = {
-  mode: WebpackEnvEnum;
+  env: WebpackEnvEnum;
 } & IBuildOptions;
 
 export type IConfigCtx = {
-  mode: WebpackEnvEnum;
+  env: WebpackEnvEnum;
   config: Config;
   theme: {};
 };
 
 export async function configFactory({
-  mode,
+  env,
   analyze = false,
   codeSplitting = true,
   enableNewJsxTransform = true,
@@ -50,14 +51,15 @@ export async function configFactory({
   chainWebpack,
   modifyWebpackConfig,
 }: IOpts) {
-  const isEnvDevelopment = mode === WebpackEnvEnum.DEVELOPMENT;
-  const isEnvProduction = mode === WebpackEnvEnum.PRODUCTION;
+  const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
+  const isEnvProduction = env === WebpackEnvEnum.PRODUCTION;
+  const stringifiedEnv = getClientEnviron(isEnvDevelopment);
   const useTypeScript = fs.existsSync(appTsConfig);
 
   const config = new Config();
 
   const context: IConfigCtx = {
-    mode,
+    env,
     config,
     theme,
   };
@@ -267,12 +269,7 @@ export async function configFactory({
       .end()
     .plugin("define")
       .use(webpack.DefinePlugin, [
-        {
-          "process.env.NODE_ENV": isEnvDevelopment
-            ? '"development"'
-            : '"production"',
-          __DEV__: isEnvDevelopment,
-        },
+        stringifiedEnv,
       ])
       .end();
 
