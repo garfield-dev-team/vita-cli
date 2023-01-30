@@ -414,8 +414,16 @@ export async function configFactory({
           test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
           chunks: "all",
           // 让每个依赖拥有单独的文件和 hash
-          name: ({ context }: { context: string }) =>
-            (context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/) || [])[1],
+          name: ({ context }: { context: string }) => {
+            // e.g. node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es
+            const path = context.replace(/.pnpm[\\/]/, "");
+            const match = path.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+            if (!match) return 'npm.unknown';
+            const packageName = match[1];
+            return `npm.${packageName
+              .replace(/@/g, '_at_')
+              .replace(/\+/g, '_')}`;
+          },
         },
         // Extracting all CSS/less in a single file
         // styles: {
