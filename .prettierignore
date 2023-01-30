@@ -1,0 +1,13 @@
+node_modules
+dist
+dist-ssr
+typing
+.turbo
+*.local
+
+packages/vita-plugin-build-scripts/src/config
+
+# Editor directories and files
+!.vscode/extensions.json
+.idea
+.DS_Store
