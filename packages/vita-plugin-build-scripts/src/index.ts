@@ -1,30 +1,39 @@
-import { CAC } from "cac";
+import type { CAC } from "cac";
+import { IDevServerOpts } from "./scripts/serve";
+import type { IBuildOptions } from "./types/global";
 
 class BuildScriptsPlugin {
-  apply(cli: CAC) {
+  apply(cli: CAC, options: IBuildOptions) {
     cli
       .command("serve", "start development server")
       .option("--host [host]", `[string] specify hostname`)
       .option("--port <port>", `[number] specify port`)
       .option("--https", `[boolean] use TLS + HTTP/2`)
-      .option("--open [path]", `[boolean | string] open browser on startup`)
-      .action(async () => {
+      .option("--open", `[boolean] open browser on startup`)
+      .action(async ({ host, port, https, open }: IDevServerOpts) => {
         const module = await import("./scripts/serve");
-        // TODO: 传入配置参数
-        await module.serve();
+        await module.serve({
+          ...options,
+          ...(host !== undefined && { host }),
+          ...(port !== undefined && { port }),
+          ...(https !== undefined && { https }),
+          ...(open !== undefined && { open }),
+        });
       });
 
     cli
       .command("build", "create an optimized production build")
       .option("--analyze", `[boolean] build and run bundle analyzer`)
-      .action(async ({ analyze }) => {
+      .action(async ({ analyze }: { analyze?: true }) => {
         const module = await import("./scripts/build");
-        // TODO: 传入配置参数
-        await module.build();
+        await module.build({
+          ...options,
+          ...(analyze !== undefined && { analyze }),
+        });
       });
   }
 }
 
-export type { IBuildOptions } from "./types/global";
+export { IBuildOptions };
 
 export default BuildScriptsPlugin;

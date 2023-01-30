@@ -10,14 +10,16 @@ import printBuildError from "react-dev-utils/printBuildError";
 import { configFactory } from "../config/webpack.config";
 import { appBuild, appPublic, appHtml } from "../config/paths";
 import { WebpackEnvEnum } from "../utils/constants";
+import { IBuildOptions } from "../types/global";
 
-async function runBuild() {
+async function runBuild(options: IBuildOptions) {
   console.log("Creating an optimized production build...");
 
   process.env.NODE_ENV = "production";
 
   const config = await configFactory({
     mode: WebpackEnvEnum.PRODUCTION,
+    ...options,
   });
 
   const compiler = webpack(config);
@@ -99,11 +101,11 @@ function copyPublicFolder() {
   });
 }
 
-export async function build() {
+export async function build(options: IBuildOptions) {
   fsExtra.emptyDirSync(appBuild);
   copyPublicFolder();
   try {
-    await runBuild();
+    await runBuild(options);
   } catch (err) {
     console.log(chalk.red("Failed to compile.\n"));
     printBuildError(err);
