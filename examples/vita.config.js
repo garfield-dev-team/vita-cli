@@ -5,7 +5,6 @@ module.exports = {
     codeSplitting: false,
     enableNewJsxTransform: false,
     proxy: {},
-    publicPath: "/",
     theme: {},
   },
 };

@@ -42,18 +42,16 @@ export type IConfigCtx = {
 
 export async function configFactory({
   mode,
-  analyze,
-  codeSplitting,
-  enableNewJsxTransform,
+  analyze = false,
+  codeSplitting = true,
+  enableNewJsxTransform = true,
   proxy,
-  publicPath,
   theme = {},
   chainWebpack,
   modifyWebpackConfig,
 }: IOpts) {
   const isEnvDevelopment = mode === WebpackEnvEnum.DEVELOPMENT;
   const isEnvProduction = mode === WebpackEnvEnum.PRODUCTION;
-  const useBundleAnalyzer = analyze || false;
   const useTypeScript = fs.existsSync(appTsConfig);
 
   const config = new Config();
@@ -133,7 +131,7 @@ export async function configFactory({
             [
               "@babel/preset-react",
               {
-                runtime: "automatic",
+                runtime: enableNewJsxTransform ? "automatic": "classic",
               }
             ]
           ].filter(Boolean),
@@ -233,6 +231,7 @@ export async function configFactory({
     .set("static", appBuild)
     .compress(true)
     .hot(true)
+    .proxy(proxy)
     // .open(true)
     .historyApiFallback(true)
     .host("0.0.0.0")
@@ -357,7 +356,7 @@ export async function configFactory({
         .end();
   }
 
-  if (useBundleAnalyzer) {
+  if (analyze) {
     config
       .plugin("analyze")
         .use(BundleAnalyzerPlugin)
@@ -402,37 +401,39 @@ export async function configFactory({
     .runtimeChunk("single")
     .splitChunks({
       chunks: "all",
-      cacheGroups: {
-        // 针对业务组件库的缓存组
-        commons: {
-          test: /[\\/]node_modules[\\/]@study[\\/]/,
-          name: "commons",
-          chunks: "all",
-        },
-        // 针对 antd 的缓存组
-        vendor: {
-          test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
-          chunks: "all",
-          // 让每个依赖拥有单独的文件和 hash
-          name: ({ context }: { context: string }) => {
-            // e.g. node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es
-            const path = context.replace(/.pnpm[\\/]/, "");
-            const match = path.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
-            if (!match) return 'npm.unknown';
-            const packageName = match[1];
-            return `npm.${packageName
-              .replace(/@/g, '_at_')
-              .replace(/\+/g, '_')}`;
+      ...(codeSplitting && {
+          cacheGroups: {
+          // 针对业务组件库的缓存组
+          commons: {
+            test: /[\\/]node_modules[\\/]@study[\\/]/,
+            name: "commons",
+            chunks: "all",
           },
+          // 针对 antd 的缓存组
+          vendor: {
+            test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
+            chunks: "all",
+            // 让每个依赖拥有单独的文件和 hash
+            name: ({ context }: { context: string }) => {
+              // e.g. node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es
+              const path = context.replace(/.pnpm[\\/]/, "");
+              const match = path.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+              if (!match) return 'npm.unknown';
+              const packageName = match[1];
+              return `npm.${packageName
+                .replace(/@/g, '_at_')
+                .replace(/\+/g, '_')}`;
+            },
+          },
+          // Extracting all CSS/less in a single file
+          // styles: {
+          //   name: 'styles',
+          //   test: /\.(c|le)ss$/,
+          //   chunks: 'all',
+          //   enforce: true,
+          // },
         },
-        // Extracting all CSS/less in a single file
-        // styles: {
-        //   name: 'styles',
-        //   test: /\.(c|le)ss$/,
-        //   chunks: 'all',
-        //   enforce: true,
-        // },
-      },
+      })
     });
 
   if (chainWebpack) {
