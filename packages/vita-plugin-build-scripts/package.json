@@ -2,7 +2,8 @@
   "name": "@study/vita-plugin-build-scripts",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "typings": "./dist/typings/index.d.ts",
   "files": [
     "dist"
   ],

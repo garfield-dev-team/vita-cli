@@ -25,4 +25,6 @@ class BuildScriptsPlugin {
   }
 }
 
+export type { IBuildOptions } from "./types/global";
+
 export default BuildScriptsPlugin;
