@@ -73,7 +73,7 @@ const createRuleConfig = ({ theme }: IConfigCtx): IConfig[] => ([
 ]);
 
 const createBaseRule = (
-  { env, config }: IConfigCtx,
+  { env, config, shouldUseSourceMap }: IConfigCtx,
   { name, test, exclude, importLoaders, isCSSModules }: IConfig
 ) => {
   const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
@@ -105,7 +105,7 @@ const createBaseRule = (
     .use("css-loader")
       .loader(require.resolve("css-loader"))
       .options({
-        sourceMap: isEnvDevelopment,
+        sourceMap: shouldUseSourceMap,
         importLoaders,
         modules: {
           ...(!isCSSModules ? { mode: 'icss' } : {
@@ -139,7 +139,7 @@ const createBaseRule = (
             // 'postcss-normalize',
           ],
         },
-        sourceMap: isEnvDevelopment,
+        sourceMap: shouldUseSourceMap,
       })
       .end();
 

@@ -39,6 +39,7 @@ export type IConfigCtx = {
   env: WebpackEnvEnum;
   config: Config;
   theme: {};
+  shouldUseSourceMap: boolean;
 };
 
 export async function configFactory({
@@ -54,6 +55,7 @@ export async function configFactory({
   const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
   const isEnvProduction = env === WebpackEnvEnum.PRODUCTION;
   const stringifiedEnv = getClientEnviron(isEnvDevelopment);
+  const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false' || isEnvDevelopment;
   const useTypeScript = fs.existsSync(appTsConfig);
 
   const config = new Config();
@@ -62,6 +64,7 @@ export async function configFactory({
     env,
     config,
     theme,
+    shouldUseSourceMap,
   };
 
   // mode
@@ -73,7 +76,7 @@ export async function configFactory({
   config.entry("main").add(appIndexJs);
 
   // devtool
-  config.devtool(isEnvDevelopment ? "eval-cheap-module-source-map" : false);
+  config.devtool(shouldUseSourceMap ? "eval-cheap-module-source-map" : false);
 
   // output
   config.output
@@ -89,7 +92,7 @@ export async function configFactory({
         : "static/js/[name].chunk.js",
     )
     // .assetModuleFilenamet("static/media/[name].[hash][ext]")
-    .publicPath("auto")
+    .publicPath(process.env.PUBLIC_URL || "auto")
     .set("assetModuleFilename", "static/media/[name].[hash][ext]")
     .set("hashFunction", "xxhash64")
     .clean(true);
@@ -313,7 +316,7 @@ export async function configFactory({
               }),
               configOverwrite: {
                 compilerOptions: {
-                  sourceMap: isEnvDevelopment,
+                  sourceMap: shouldUseSourceMap,
                   skipLibCheck: true,
                   inlineSourceMap: false,
                   declarationMap: false,
