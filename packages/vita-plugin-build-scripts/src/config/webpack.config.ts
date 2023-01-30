@@ -24,26 +24,34 @@ import {
   appTsConfig,
   appNodeModules,
   appWebpackCache,
-  appTsBuildInfoFile
+  appTsBuildInfoFile,
 } from "./paths";
 import { addCSSRules } from "./cssRule";
 import { WebpackEnvEnum } from "../utils/constants";
+import { IBuildOptions } from "../types/global";
 
 type IOpts = {
   mode: WebpackEnvEnum;
-  chainWebpack?: (config: Config) => void;
-  modifyWebpackConfig?: webpack.Configuration;
-};
+} & IBuildOptions;
 
 export type IConfigCtx = {
   mode: WebpackEnvEnum;
   config: Config;
 };
 
-export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }: IOpts) {
+export async function configFactory({
+  mode,
+  analyze,
+  codeSplitting,
+  enableNewJsxTransform,
+  proxy,
+  publicPath,
+  chainWebpack,
+  modifyWebpackConfig,
+}: IOpts) {
   const isEnvDevelopment = mode === WebpackEnvEnum.DEVELOPMENT;
   const isEnvProduction = mode === WebpackEnvEnum.PRODUCTION;
-  const useBundleAnalyzer = process.env.ANALYZE === "true";
+  const useBundleAnalyzer = analyze || false;
   const useTypeScript = fs.existsSync(appTsConfig);
 
   const config = new Config();
@@ -70,12 +78,12 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
     .filename(
       isEnvProduction
         ? "static/js/[name].[contenthash:8].js"
-        : "static/js/[name].js"
+        : "static/js/[name].js",
     )
     .chunkFilename(
       isEnvProduction
         ? "static/js/[name].[contenthash:8].chunk.js"
-        : "static/js/[name].chunk.js"
+        : "static/js/[name].chunk.js",
     )
     // .assetModuleFilenamet("static/media/[name].[hash][ext]")
     .publicPath("auto")
@@ -110,13 +118,13 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
         .loader(require.resolve("babel-loader"))
         .options({
           presets: [
-            "@babel/preset-typescript",
+            useTypeScript && "@babel/preset-typescript",
             [
               "@babel/preset-env",
               {
                 modules: false,
                 useBuiltIns: "entry",
-                corejs: "3.0"
+                corejs: 3
               }
             ],
             [
@@ -125,7 +133,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
                 runtime: "automatic",
               }
             ]
-          ],
+          ].filter(Boolean),
           babelrc: false,
           configFile: false,
           plugins: [
@@ -140,6 +148,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
                 // helper 函数从 @babel/runtime 引入
                 // 默认就是 true
                 helpers: true,
+                version: require('@babel/runtime/package.json').version,
                 // regeneratorRuntime 是否通过模块导入（Babel 7.18.0 后支持）
                 // 如果为 false 则从全局作用域获取
                 // 默认为 true
@@ -179,7 +188,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
       .use("file-loader")
         .loader(require.resolve("file-loader"))
         .options({
-          name: 'static/media/[name].[hash].[ext]',
+          name: "static/media/[name].[hash].[ext]",
         })
         .end()
       .end();
@@ -190,7 +199,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
       .exclude
         .add(/node_modules/)
         .end()
-      .type('asset')
+      .type("asset")
       .end();
 
   config.module
@@ -199,16 +208,16 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
       .exclude
         .add(/node_modules/)
         .end()
-      .type('asset')
+      .type("asset")
       .end();
 
   // cache
   config.cache({
-    type: 'filesystem',
+    type: "filesystem",
     cacheDirectory: appWebpackCache,
-    store: 'pack',
+    store: "pack",
     buildDependencies: {
-      defaultWebpack: ['webpack/lib/'],
+      defaultWebpack: ["webpack/lib/"],
       config: [__filename],
       tsconfig: useTypeScript ? [appTsConfig] : [],
     },
@@ -249,24 +258,28 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
               minifyURLs: true,
             },
           }),
-        }
+        },
       ])
       .end()
     .plugin("define")
       .use(webpack.DefinePlugin, [
         {
-          'process.env.NODE_ENV': isEnvDevelopment ? '"development"' : '"production"',
+          "process.env.NODE_ENV": isEnvDevelopment
+            ? '"development"'
+            : '"production"',
           __DEV__: isEnvDevelopment,
-        }
+        },
       ])
       .end();
 
   if (isEnvDevelopment) {
     config
       .plugin("react-refresh-webpack-plugin")
-        .use(ReactRefreshWebpackPlugin, [{
-          overlay: false,
-        }])
+        .use(ReactRefreshWebpackPlugin, [
+          {
+            overlay: false,
+          },
+        ])
         .end()
       .plugin("case-sensitive-paths-webpack-plugin")
         .use(CaseSensitivePathsPlugin)
@@ -278,11 +291,11 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
       .plugin("mini-css-extract-plugin")
         .use(MiniCssExtractPlugin, [
           {
-            filename: 'static/css/[name].[contenthash:8].css',
-            chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+            filename: "static/css/[name].[contenthash:8].css",
+            chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
             // 解决用了 antd 组件库之后，抽提样式冲突问题
             ignoreOrder: true,
-          }
+          },
         ])
         .end();
   }
@@ -294,7 +307,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
           {
             async: isEnvDevelopment,
             typescript: {
-              typescriptPath: resolve.sync('typescript', {
+              typescriptPath: resolve.sync("typescript", {
                 basedir: appNodeModules,
               }),
               configOverwrite: {
@@ -312,7 +325,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
               diagnosticOptions: {
                 syntactic: true,
               },
-              mode: 'write-references',
+              mode: "write-references",
               // profile: true,
             },
             issue: {
@@ -321,20 +334,20 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
               // '../cra-template-typescript/template/src/App.tsx'
               // otherwise.
               include: [
-                { file: '../**/src/**/*.{ts,tsx}' },
-                { file: '**/src/**/*.{ts,tsx}' },
+                { file: "../**/src/**/*.{ts,tsx}" },
+                { file: "**/src/**/*.{ts,tsx}" },
               ],
               exclude: [
-                { file: '**/src/**/__tests__/**' },
-                { file: '**/src/**/?(*.){spec|test}.*' },
-                { file: '**/src/setupProxy.*' },
-                { file: '**/src/setupTests.*' },
+                { file: "**/src/**/__tests__/**" },
+                { file: "**/src/**/?(*.){spec|test}.*" },
+                { file: "**/src/setupProxy.*" },
+                { file: "**/src/setupTests.*" },
               ],
             },
             logger: {
-              infrastructure: 'silent',
+              infrastructure: "silent",
             },
-          }
+          },
         ])
         .end();
   }
@@ -375,7 +388,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
               ascii_only: true,
             },
           },
-        } as any
+        } as any,
       ])
       .end()
     .minimizer("css-minimizer")
@@ -388,15 +401,16 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
         // 针对业务组件库的缓存组
         commons: {
           test: /[\\/]node_modules[\\/]@study[\\/]/,
-          name: 'commons',
-          chunks: 'all',
+          name: "commons",
+          chunks: "all",
         },
         // 针对 antd 的缓存组
         vendor: {
           test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
-          chunks: 'all',
+          chunks: "all",
           // 让每个依赖拥有单独的文件和 hash
-          name: ({ context }: { context: string }) => (context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/) || [])[1]
+          name: ({ context }: { context: string }) =>
+            (context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/) || [])[1],
         },
         // Extracting all CSS/less in a single file
         // styles: {
@@ -405,7 +419,7 @@ export async function configFactory({ mode, chainWebpack, modifyWebpackConfig }:
         //   chunks: 'all',
         //   enforce: true,
         // },
-      }
+      },
     });
 
   if (chainWebpack) {
