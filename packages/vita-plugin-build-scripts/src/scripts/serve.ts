@@ -14,6 +14,8 @@ import { appPackageJson } from "../config/paths";
 import { WebpackEnvEnum } from "../utils/constants";
 
 async function runServer() {
+  console.log(chalk.cyan("Starting the development server...\n"));
+
   const config = await configFactory({
     mode: WebpackEnvEnum.DEVELOPMENT,
   });
@@ -47,9 +49,10 @@ async function runServer() {
   await devServer.start();
 }
 
-async function main() {
-  console.log(chalk.cyan("Starting the development server...\n"));
-  await runServer();
+export async function serve() {
+  try {
+    await runServer();
+  } catch (err) {
+    console.log(err);
+  }
 }
-
-main().catch((err) => console.log(err));

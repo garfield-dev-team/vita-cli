@@ -8,15 +8,19 @@ class BuildScriptsPlugin {
       .option("--port <port>", `[number] specify port`)
       .option("--https", `[boolean] use TLS + HTTP/2`)
       .option("--open [path]", `[boolean | string] open browser on startup`)
-      .action(() => {
-        import("./scripts/serve");
+      .action(async () => {
+        const module = await import("./scripts/serve");
+        // TODO: 传入配置参数
+        await module.serve();
       });
 
     cli
       .command("build", "create an optimized production build")
       .option("--analyze", `[boolean] build and run bundle analyzer`)
       .action(async ({ analyze }) => {
-        import("./scripts/build");
+        const module = await import("./scripts/build");
+        // TODO: 传入配置参数
+        await module.build();
       });
   }
 }

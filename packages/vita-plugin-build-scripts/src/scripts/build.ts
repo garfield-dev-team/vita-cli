@@ -97,14 +97,14 @@ function copyPublicFolder() {
   });
 }
 
-async function main() {
+export async function build() {
   fsExtra.emptyDirSync(appBuild);
   copyPublicFolder();
-  await runBuild();
+  try {
+    await runBuild();
+  } catch (err) {
+    console.log(chalk.red("Failed to compile.\n"));
+    printBuildError(err);
+    process.exit(1);
+  }
 }
-
-main().catch((err) => {
-  console.log(chalk.red("Failed to compile.\n"));
-  printBuildError(err);
-  process.exit(1);
-});
