@@ -30,7 +30,7 @@ https://g.hz.netease.com/ykt-adult-front/cicd/yktci
 
 Vita-cli 是如何解决上述问题的：
 
-### 默认最小的 Install Size
+### 1) 默认最小的 Install Size
 
 依赖体积过大会直接影响 CI 环境依赖安装速度，进而降低 CI 构建效率。Vita-cli 非常注重 Install Size，提出了如下解决方案。
 
@@ -60,7 +60,7 @@ $ pnpm install --prod
 
 此时，vita-cli 只会初始化 `vita-plugin-build-scripts` 插件，`vita build` 命令可以正常使用，减少了 CI 环境不必要的依赖，有助于提升 CI 构建效率。
 
-### 默认最快的初始化性能
+### 2) 默认最快的初始化性能
 
 对于 CLI 工具初始化效率问题，vita-cli 提出的方案是 Code-Splitting 按需加载。例如执行 `vita build` 命令的时候，只会加载 `build` 命令所需模块代码，不会加载到其他命令的模块，初始化效率保证 `O(1)` 时间复杂度，不会随命令增加而降低。
 
