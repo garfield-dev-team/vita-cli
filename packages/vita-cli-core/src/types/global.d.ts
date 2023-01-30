@@ -1,9 +1,11 @@
 import { CAC } from "cac";
 
-interface IPlugins {
-  apply(cli: CAC): void;
+export type IPackageJson = {
+  dependencies: Record<string, string>;
+} | null;
+
+class IVitaPlugins {
+  apply(cli: CAC, options: any): void;
 }
 
-export type IConfigSchema = {
-  plugins: IPlugins[];
-};
+export type IResolvedPlugins = typeof IVitaPlugins | null;

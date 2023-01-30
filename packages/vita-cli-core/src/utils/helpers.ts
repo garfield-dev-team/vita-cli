@@ -1,10 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import { IConfigSchema } from "../types/global";
 // import { pathToFileURL } from "node:url";
-import { DEFAULT_CONFIG_FILES } from "./constants";
+import { DEFAULT_CONFIG_FILES, IConfigSchema } from "./constants";
 
-const configRoot = process.cwd();
+export const configRoot = process.cwd();
 
 /**
  * 通过 CWD 去解析配置文件

@@ -1,4 +1,11 @@
 module.exports = {
   /** @type {import("@study/vita-plugin-build-scripts").IBuildOptions} */
-  build: {},
+  build: {
+    analyze: true,
+    codeSplitting: false,
+    enableNewJsxTransform: false,
+    proxy: {},
+    publicPath: "/",
+    theme: {},
+  },
 };
