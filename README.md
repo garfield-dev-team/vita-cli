@@ -86,7 +86,7 @@ $ vita start
 $ vita build
 ```
 
-## CLI 参数配置
+## CLI
 
 ### 1) `vita serve`
 
@@ -103,9 +103,11 @@ $ vita build
 | ----------- | ----------------------------------------- |
 | `--analyze` | Build and run bundle analyzer (`boolean`) |
 
-## 配置文件
+## Config Reference
 
 ### 1) `@study/vita-plugin-build-scripts`
+
+配置文件：
 
 ```ts
 export type IBuildOptions = {
@@ -127,4 +129,23 @@ export type IBuildOptions = {
   chainWebpack?: (config: Config) => void;
   modifyWebpackConfig?: webpack.Configuration;
 };
+```
+
+环境变量：
+
+```bash
+# 打包输出路径，默认值 dist
+BUILD_PATH=dist
+
+# assets 和 public 的静态资源前缀
+PUBLIC_URL=/zhikao/
+
+# 是否生成 soucemap，开发环境默认启用，生产环境默认禁用
+GENERATE_SOURCEMAP=false
+
+# 用户自定义环境变量
+REACT_APP_ENV=production
+
+REACT_APP_KE=https://ke.study.163.com
+REACT_APP_STUDY=https://study.163.com
 ```
