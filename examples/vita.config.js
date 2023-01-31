@@ -7,6 +7,7 @@ module.exports = {
     proxy: {},
     theme: {},
   },
+  /** @type {import("@study/vita-plugin-yapi").IConfig} */
   yapi: {
     headers: {
       Cookie:

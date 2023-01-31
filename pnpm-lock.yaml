@@ -28,6 +28,7 @@ importers:
     specifiers:
       '@study/vita-cli': workspace:*
       '@study/vita-plugin-build-scripts': workspace:*
+      '@study/vita-plugin-yapi': workspace:*
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
       antd: ^5.1.6
@@ -36,14 +37,15 @@ importers:
       react-dom: ^18.2.0
       typescript: ^4.9.4
     dependencies:
+      '@study/vita-cli': link:../packages/vita-cli-core
+      '@study/vita-plugin-build-scripts': link:../packages/vita-plugin-build-scripts
       antd: 5.1.6_biqbaboplfbrettd7655fr4n2y
       less: 4.1.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.9.4
     devDependencies:
-      '@study/vita-cli': link:../packages/vita-cli-core
-      '@study/vita-plugin-build-scripts': link:../packages/vita-plugin-build-scripts
+      '@study/vita-plugin-yapi': link:../packages/vita-plugin-yapi
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
 
