@@ -134,6 +134,12 @@ importers:
     devDependencies:
       cac: 6.7.14
 
+  packages/vita-plugin-yapi:
+    specifiers:
+      '@study/vita-shared-utils': workspace:*
+    dependencies:
+      '@study/vita-shared-utils': link:../vita-shared-utils
+
   packages/vita-shared-utils:
     specifiers:
       node-fetch: ^3.3.0
