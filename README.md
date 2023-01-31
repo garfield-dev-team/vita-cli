@@ -10,8 +10,9 @@
 | @study/vita-plugin-build-scripts | v1.0.0           | 构建 CSR 应用插件                          |
 | @study/vita-plugin-build-ssr     | Work In Progress | 构建 SSR 应用插件                          |
 | @study/vita-plugin-generator     | Work In Progress | 微生成器插件                               |
-| @study/vita-plugin-yapi          | Work In Progress | 基于 Yapi 接口文档自动生成 TS 类型定义插件 |
+| @study/vita-plugin-yapi          | v1.0.0           | 基于 Yapi 接口文档自动生成 TS 类型定义插件 |
 | @study/vita-plugin-react-native  | Work In Progress | 构建 RN 工程插件                           |
+| @study/vita-shared-utils         | v1.0.0           | Vita-cli 公共包                            |
 
 ## Why
 
