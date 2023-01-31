@@ -1,4 +1,8 @@
-import fetch, { Headers, Request } from "node-fetch";
+import fetch, {
+  Headers,
+  Request,
+  // @ts-ignore
+} from "@study/vita-shared-utils/compiled/node-fetch";
 import { IPayload, IYApiResponse } from "./types";
 
 const BASE_URL = "http://yapi.study.youdao.com/api/interface/get";
@@ -29,5 +33,6 @@ export const request = async ({ params = {}, headers = {} }: IPayload) => {
     headers: requestHeaders,
   });
 
+  // @ts-ignore
   return fetch(request).then((res) => res.json() as Promise<IYApiResponse>);
 };
