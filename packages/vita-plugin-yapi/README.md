@@ -1,0 +1,1 @@
+# @study/vita-plugin-yapi
