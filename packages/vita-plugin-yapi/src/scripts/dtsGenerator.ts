@@ -5,13 +5,18 @@ import {
   IConfig,
   IPrimitiveValue,
   IYApiResponseDataType,
-} from "./types";
+} from "../types/global";
 import {
   IFieldTypeEnum,
   PRIMITIVE_TYPE_MAPPING,
   SUPPORT_CONTENT_TYPE,
-} from "./constants";
-import { genInterfaceName, genTSDoc, getIndent, getYapiPageUrl } from "./utils";
+} from "../utils/constants";
+import {
+  genInterfaceName,
+  genTSDoc,
+  getIndent,
+  getYapiPageUrl,
+} from "../utils/helper";
 
 const genInlineComments = (description?: string) => {
   return description ? ` // ${description}` : "";

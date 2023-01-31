@@ -1,18 +1,18 @@
 import os from "node:os";
 import consola from "consola";
-import { ICastDataNode, IConfig, IYApiResponseDataType } from "./types";
+import { ICastDataNode, IConfig, IYApiResponseDataType } from "../types/global";
 import {
   genInterfaceName,
   genMethodName,
   genTSDoc,
   getIndent,
   getYapiPageUrl,
-} from "./utils";
+} from "../utils/helper";
 import {
   IFieldTypeEnum,
   RequestMethodsEnum,
   SUPPORT_CONTENT_TYPE,
-} from "./constants";
+} from "../utils/constants";
 import { traverse } from "./dtsGenerator";
 
 /**

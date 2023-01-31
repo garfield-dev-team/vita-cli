@@ -3,7 +3,7 @@ import fetch, {
   Request,
   // @ts-ignore
 } from "@study/vita-shared-utils/compiled/node-fetch";
-import { IPayload, IYApiResponse } from "./types";
+import { IPayload, IYApiResponse } from "../types/global";
 
 const BASE_URL = "http://yapi.study.youdao.com/api/interface/get";
 

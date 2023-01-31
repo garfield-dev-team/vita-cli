@@ -137,8 +137,13 @@ importers:
   packages/vita-plugin-yapi:
     specifiers:
       '@study/vita-shared-utils': workspace:*
+      cac: ^6.7.14
+      consola: ^2.15.3
     dependencies:
       '@study/vita-shared-utils': link:../vita-shared-utils
+      consola: 2.15.3
+    devDependencies:
+      cac: 6.7.14
 
   packages/vita-shared-utils:
     specifiers:

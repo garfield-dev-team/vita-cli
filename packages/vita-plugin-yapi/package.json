@@ -10,6 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@study/vita-shared-utils": "workspace:*"
+    "@study/vita-shared-utils": "workspace:*",
+    "consola": "^2.15.3"
+  },
+  "devDependencies": {
+    "cac": "^6.7.14"
+  },
+  "peerDependencies": {
+    "cac": ">=6.7.14"
   }
 }

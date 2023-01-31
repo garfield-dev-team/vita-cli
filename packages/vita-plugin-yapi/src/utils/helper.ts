@@ -2,45 +2,12 @@ import path from "node:path";
 import fs from "node:fs";
 import { Readable } from "node:stream";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { pathToFileURL } from "node:url";
 import consola from "consola";
-import {
-  CACHE_DIR,
-  DEFAULT_CONFIG_FILES,
-  REQUEST_VERB_MAPPING,
-} from "./constants";
-import { IConfig, IYApiResponseDataType } from "./types";
+import { CACHE_DIR, REQUEST_VERB_MAPPING } from "./constants";
+import { IConfig, IYApiResponseDataType } from "../types/global";
 import os from "node:os";
 
 const configRoot = process.cwd();
-
-/**
- * 通过 CWD 去解析配置文件
- */
-export const resolveConfig = async () => {
-  let resolvedPath: string | undefined;
-  for (const filename of DEFAULT_CONFIG_FILES) {
-    const filePath = path.resolve(configRoot, filename);
-    if (!fs.existsSync(filePath)) {
-      continue;
-    }
-
-    resolvedPath = filePath;
-    break;
-  }
-  if (!resolvedPath) {
-    consola.error("no config file found.");
-    process.exit(1);
-  }
-  if (typeof require === "undefined") {
-    // CJS `require` 可以直接绝对路径，如果 ESM `import()` 需要转为 URL
-    // windows 下 D:\ 开头文件文件路径用 `import()` 加载会有问题
-    // 需要用 `pathToFileURL` 转为合法的 URL 格式
-    resolvedPath = `${pathToFileURL(resolvedPath)}`;
-  }
-  const config = await import(resolvedPath);
-  return config.default as IConfig;
-};
 
 /**
  * 是否存在缓存目录

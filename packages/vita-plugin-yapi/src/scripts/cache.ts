@@ -1,5 +1,5 @@
-import { IYApiResponseDataType } from "./types";
-import { restoreCache, updateCache } from "./utils";
+import { IYApiResponseDataType } from "../types/global";
+import { restoreCache, updateCache } from "../utils/helper";
 
 /**
  * 通过接口文档最近更新时间，判断缓存是否有效

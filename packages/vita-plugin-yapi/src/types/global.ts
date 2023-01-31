@@ -1,4 +1,4 @@
-import { IFieldTypeEnum, RequestMethodsEnum } from "./constants";
+import { IFieldTypeEnum, RequestMethodsEnum } from "../utils/constants";
 
 export type IConfig = Partial<{
   headers: Record<string, string>; // 获取接口文档数据的请求头

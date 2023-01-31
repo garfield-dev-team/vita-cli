@@ -1,13 +1,4 @@
 /**
- * 支持以下几种配置文件格式
- */
-export const DEFAULT_CONFIG_FILES = [
-  ".nei2dtsrc",
-  ".nei2dtsrc.js",
-  ".nei2dtsrc.cjs",
-] as const;
-
-/**
  * 默认缓存目录
  */
 export const CACHE_DIR = ".nei2dts";
