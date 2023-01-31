@@ -2,18 +2,21 @@ import fs from "node:fs";
 import path from "node:path";
 import dotenv from "dotenv";
 import dotenvExpand from "dotenv-expand";
-import { appPath } from "../config/paths";
+
+const workDir = process.cwd();
 
 const getEnvFiles = (mode: string) => {
   return [`.env.${mode}`, `.env.local`, `.env`].map((n) =>
-    path.resolve(appPath, n),
+    path.resolve(workDir, n),
   );
 };
 
 const loadEnvFiles = (dotenvFiles: string[]) => {
   dotenvFiles.forEach((dotenvFile) => {
     if (fs.existsSync(dotenvFile)) {
-      const myEnv = dotenv.config();
+      const myEnv = dotenv.config({
+        path: dotenvFile,
+      });
       dotenvExpand.expand(myEnv);
     }
   });

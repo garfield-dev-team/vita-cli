@@ -11,7 +11,6 @@ import { configFactory } from "../config/webpack.config";
 import { appBuild, appPublic, appHtml } from "../config/paths";
 import { WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
-import { loadEnvironFromEnvFiles } from "../utils/helpers";
 
 async function runBuild(options: IBuildOptions) {
   console.log("Creating an optimized production build...");
@@ -102,11 +101,7 @@ function copyPublicFolder() {
   });
 }
 
-export async function build({
-  mode = "production",
-  ...options
-}: IBuildOptions & { mode?: string }) {
-  loadEnvironFromEnvFiles(mode);
+export async function build(options: IBuildOptions & { mode?: string }) {
   fsExtra.emptyDirSync(appBuild);
   copyPublicFolder();
   try {

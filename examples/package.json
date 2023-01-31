@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "vita serve --port 3000 --open",
+    "build:staging": "vita build --mode staging",
     "build:prod": "vita build"
   },
   "keywords": [],

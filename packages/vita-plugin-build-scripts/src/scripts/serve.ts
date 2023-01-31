@@ -13,7 +13,6 @@ import { configFactory } from "../config/webpack.config";
 import { appPackageJson } from "../config/paths";
 import { WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
-import { loadEnvironFromEnvFiles } from "../utils/helpers";
 
 export type IDevServerOpts = {
   host?: string;
@@ -79,11 +78,7 @@ async function runServer({
   await devServer.start();
 }
 
-export async function serve({
-  mode = "development",
-  ...options
-}: IServerOptions) {
-  loadEnvironFromEnvFiles(mode);
+export async function serve(options: IServerOptions) {
   try {
     await runServer(options);
   } catch (err) {
