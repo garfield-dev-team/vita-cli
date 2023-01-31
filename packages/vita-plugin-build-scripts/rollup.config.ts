@@ -18,6 +18,10 @@ export default defineConfig({
     externals({
       devDeps: false,
     }),
-    typescript(),
+    typescript({
+      compilerOptions: {
+        rootDir: "./src",
+      },
+    }),
   ],
 });

@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
     "noEmit": false,
     "declaration": true,
     "declarationDir": "./dist/typings"
   },
-  "include": ["./src"]
+  "include": ["src/**/*", "rollup.config.ts"]
 }
