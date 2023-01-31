@@ -1,8 +1,9 @@
-const resolve = require("@rollup/plugin-node-resolve");
-const externals = require("rollup-plugin-node-externals");
-const typescript = require("@rollup/plugin-typescript");
+import { defineConfig } from "rollup";
+import resolve from "@rollup/plugin-node-resolve";
+import externals from "rollup-plugin-node-externals";
+import typescript from "@rollup/plugin-typescript";
 
-module.exports = {
+export default defineConfig({
   input: "src/index.ts",
   output: [
     {
@@ -19,4 +20,4 @@ module.exports = {
     }),
     typescript(),
   ],
-};
+});

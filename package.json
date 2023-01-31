@@ -7,7 +7,7 @@
   "scripts": {
     "build:all": "turbo run build",
     "turbo:clean": "rimraf packages/*/.turbo",
-    "clean": "rimraf packages/*/{dist,typings}"
+    "clean": "rimraf packages/*/{dist,typings,compiled}"
   },
   "keywords": [],
   "author": "",
