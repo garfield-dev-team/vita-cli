@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import dotenv from "dotenv";
+import dotenvExpand from "dotenv-expand";
 import { appPath } from "../config/paths";
-import { WebpackEnvEnum } from "./constants";
 
 const getEnvFiles = (mode: string) => {
   return [`.env.${mode}`, `.env.local`, `.env`].map((n) =>
@@ -12,11 +13,8 @@ const getEnvFiles = (mode: string) => {
 const loadEnvFiles = (dotenvFiles: string[]) => {
   dotenvFiles.forEach((dotenvFile) => {
     if (fs.existsSync(dotenvFile)) {
-      require("dotenv-expand")(
-        require("dotenv").config({
-          path: dotenvFile,
-        }),
-      );
+      const myEnv = dotenv.config();
+      dotenvExpand.expand(myEnv);
     }
   });
 };

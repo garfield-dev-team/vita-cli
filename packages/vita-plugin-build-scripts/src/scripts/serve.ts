@@ -68,7 +68,11 @@ async function runServer({
   });
 
   const devServer = new WebpackDevServer(
-    Object.assign({}, config.devServer, { host, port, https }),
+    Object.assign({}, config.devServer, {
+      ...(host && { host }),
+      ...(port !== undefined && { port }),
+      ...(https !== undefined && { https }),
+    }),
     compiler,
   );
 
