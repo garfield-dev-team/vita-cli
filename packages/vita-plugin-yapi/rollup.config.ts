@@ -9,6 +9,7 @@ export default defineConfig({
     {
       dir: "dist",
       format: "cjs",
+      interop: "auto",
       preserveModules: true,
       preserveModulesRoot: "src",
     },
