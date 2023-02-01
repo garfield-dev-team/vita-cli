@@ -1,7 +1,6 @@
 import fetch, {
   Headers,
   Request,
-  // @ts-ignore
 } from "@study/vita-shared-utils/compiled/node-fetch";
 import { IPayload, IYApiResponse } from "../types/global";
 
@@ -33,6 +32,5 @@ export const request = async ({ params = {}, headers = {} }: IPayload) => {
     headers: requestHeaders,
   });
 
-  // @ts-ignore
   return fetch(request).then((res) => res.json() as Promise<IYApiResponse>);
 };
