@@ -32,5 +32,10 @@ export const request = async ({ params = {}, headers = {} }: IPayload) => {
     headers: requestHeaders,
   });
 
-  return fetch(request).then((res) => res.json() as Promise<IYApiResponse>);
+  return fetch(request).then((res) => {
+    if (res.status !== 200) {
+      return Promise.reject(`Got status code:${res.status}, url:${res.url}`);
+    }
+    return res.json() as Promise<IYApiResponse>;
+  });
 };

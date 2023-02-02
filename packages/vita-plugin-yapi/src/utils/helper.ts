@@ -10,13 +10,15 @@ import { IConfig, IYApiResponseDataType } from "../types/global";
 import os from "node:os";
 
 const configRoot = process.cwd();
+const cacheDir = path.resolve(configRoot, CACHE_DIR);
+const cacheFile = path.resolve(configRoot, `${CACHE_DIR}/yapi.json`);
 
 /**
  * 是否存在缓存目录
  * @returns
  */
 const hasCacheDir = () => {
-  return fs.existsSync(path.resolve(configRoot, CACHE_DIR));
+  return fs.existsSync(cacheDir);
 };
 
 /**
@@ -27,9 +29,7 @@ export const restoreCache = async () => {
     await createCacheDir();
     return {};
   }
-  const cacheDir = path.resolve(
-    path.resolve(configRoot, `${CACHE_DIR}/index.json`),
-  );
+  const cacheDir = path.resolve(cacheFile);
   try {
     const cache = await readFile(cacheDir, "utf-8");
     return JSON.parse(cache) as Record<string, number>;
@@ -43,9 +43,7 @@ export const restoreCache = async () => {
  * 更新缓存
  */
 export const updateCache = (content: Record<string, number>) => {
-  const cacheDir = path.resolve(
-    path.resolve(configRoot, `${CACHE_DIR}/index.json`),
-  );
+  const cacheDir = path.resolve(cacheFile);
   return writeFile(cacheDir, JSON.stringify(content, null, 4), "utf-8");
 };
 
@@ -53,7 +51,7 @@ export const updateCache = (content: Record<string, number>) => {
  * 创建缓存
  */
 const createCacheDir = () => {
-  return mkdir(path.resolve(configRoot, CACHE_DIR));
+  return mkdir(cacheDir);
 };
 
 /**
@@ -63,15 +61,23 @@ const createCacheDir = () => {
  * @param chunks
  * @returns
  */
-export const saveWithStream = async (
-  filePath: string,
-  chunks: string[],
-): Promise<void> => {
-  const absPath = path.resolve(configRoot, filePath);
+export const saveWithStream = async ({
+  dir,
+  filename,
+  chunks,
+}: {
+  dir: string;
+  filename: string;
+  chunks: string[];
+}): Promise<void> => {
+  const absPath = path.resolve(configRoot, dir);
   await fsExtra.ensureDir(absPath);
 
   return new Promise((resolve, reject) => {
-    const writable = fs.createWriteStream(absPath, "utf-8");
+    const writable = fs.createWriteStream(
+      path.resolve(absPath, filename),
+      "utf-8",
+    );
     writable.on("finish", resolve);
     writable.on("error", reject);
 
@@ -79,9 +85,17 @@ export const saveWithStream = async (
       accu.push(cur);
       return accu;
     }, new Readable());
+    // writable 读到 null 表示已经读取完毕
     readable.push(null);
 
-    readable.pipe(writable);
+    readable
+      .on("error", () => {
+        // `pipe` 方法注意事项，如果 `readable` 报错，需要监听 error 事件手动关闭 writable
+        // 否则会造成文件句柄泄漏
+        writable.close();
+        reject();
+      })
+      .pipe(writable);
   });
 };
 

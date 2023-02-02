@@ -1,7 +1,7 @@
 /**
  * 默认缓存目录
  */
-export const CACHE_DIR = ".nei2dts";
+export const CACHE_DIR = ".vita";
 
 /**
  * 支持解析的 Content-Type

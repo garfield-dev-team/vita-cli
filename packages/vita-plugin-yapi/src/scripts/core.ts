@@ -20,17 +20,22 @@ export const generate = async ({ dry, dts, ...options }: IOpts) => {
     const collection = await Promise.all(
       urls.map(async (url) => {
         const id = url.replace(/^.*\/(\d+)$/, "$1");
-        const { errcode, data } = await request({
-          params: {
-            id,
-          },
-          headers: userConfig.headers,
-        });
-        if (errcode !== 0) {
-          consola.error(data);
+        try {
+          const res = await request({
+            params: {
+              id,
+            },
+            headers: userConfig.headers,
+          });
+          const { errcode, data } = res;
+          if (errcode !== 0) {
+            throw res;
+          }
+          return data;
+        } catch (err) {
+          consola.error(err);
           process.exit(1);
         }
-        return data;
       }),
     );
 
@@ -42,8 +47,13 @@ export const generate = async ({ dry, dts, ...options }: IOpts) => {
 
     // 生成 `.d.ts` 类型声明
     const dtsChunks = collection.map((data) => generateDts(data, userConfig));
-    const declarationFilePath = `${declarationPath}/${key}.d.ts`;
-    !dry && (await saveWithStream(declarationFilePath, dtsChunks));
+    if (!dry) {
+      await saveWithStream({
+        dir: declarationPath,
+        filename: `${key}.d.ts`,
+        chunks: dtsChunks,
+      });
+    }
 
     if (!dts) {
       // 生成 API 请求函数
@@ -52,8 +62,13 @@ export const generate = async ({ dry, dts, ...options }: IOpts) => {
         userConfig,
         key,
       );
-      const apiFilePath = `${apiPath}/${key}.ts`;
-      !dry && (await saveWithStream(apiFilePath, apiChunks));
+      if (!dry) {
+        await saveWithStream({
+          dir: apiPath,
+          filename: `${key}.ts`,
+          chunks: apiChunks,
+        });
+      }
     }
 
     consola.success(`Type definition file has been generated for group ${key}`);
