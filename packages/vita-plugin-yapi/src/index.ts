@@ -4,7 +4,7 @@ import type { IConfig } from "./types/global";
 class YapiPlugin {
   apply(cli: CAC, options: IConfig) {
     cli
-      .command("gen", "generate .d.ts definition and api request function")
+      .command("yapi", "generate .d.ts definition and api request function")
       .option("--dts", `[boolean] generate .d.ts definition only`)
       .option("--dry", `[boolean] no emit files`)
       .action(async ({ dts, dry }: { dts?: boolean; dry?: boolean }) => {

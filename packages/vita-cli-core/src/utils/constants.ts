@@ -9,6 +9,7 @@ export const DEFAULT_CONFIG_FILES = [
 
 export const CONFIG_KEY_MAP = {
   build: "@study/vita-plugin-build-scripts",
+  yapi: "@study/vita-plugin-yapi",
 };
 
 type IConfigKeys = keyof typeof CONFIG_KEY_MAP;
