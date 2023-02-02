@@ -141,9 +141,11 @@ importers:
       '@study/vita-shared-utils': workspace:*
       cac: ^6.7.14
       consola: ^2.15.3
+      fs-extra: ^11.1.0
     dependencies:
       '@study/vita-shared-utils': link:../vita-shared-utils
       consola: 2.15.3
+      fs-extra: 11.1.0
     devDependencies:
       cac: 6.7.14
 

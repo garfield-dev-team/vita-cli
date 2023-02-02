@@ -2,6 +2,8 @@ import path from "node:path";
 import fs from "node:fs";
 import { Readable } from "node:stream";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+// @ts-ignore
+import fsExtra from "fs-extra";
 import consola from "consola";
 import { CACHE_DIR, REQUEST_VERB_MAPPING } from "./constants";
 import { IConfig, IYApiResponseDataType } from "../types/global";
@@ -61,13 +63,14 @@ const createCacheDir = () => {
  * @param chunks
  * @returns
  */
-export const saveWithStream = (
+export const saveWithStream = async (
   filePath: string,
   chunks: string[],
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const absPath = path.resolve(configRoot, filePath);
+  const absPath = path.resolve(configRoot, filePath);
+  await fsExtra.ensureDir(absPath);
 
+  return new Promise((resolve, reject) => {
     const writable = fs.createWriteStream(absPath, "utf-8");
     writable.on("finish", resolve);
     writable.on("error", reject);
