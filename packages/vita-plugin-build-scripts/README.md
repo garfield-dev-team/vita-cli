@@ -30,7 +30,7 @@ $ vita start
 $ vita build
 ```
 
-## CLI
+## CLI Options
 
 ### 1) `vita serve`
 
