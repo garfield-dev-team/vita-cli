@@ -87,7 +87,7 @@ $ pnpm run build:all
 
 ## TODOs
 
-- [] 接入 Changeset 发包流程（可以参考这个工程：https://g.hz.netease.com/ykt-front/common-nav-header）
-- [] 调研、尝试解决 `@study/vita-plugin-yapi` README 中最后两个 TODO
-- [] 开发 `@study/vita-plugin-generator` 插件，可以参考 UMI 的微生成器方案（https://umijs.org/docs/guides/generator）
-- [] 调研 docusaurus 作为文档网站
+- [ ] 接入 Changeset 发包流程（可以参考这个工程：https://g.hz.netease.com/ykt-front/common-nav-header）
+- [ ] 调研、尝试解决 `@study/vita-plugin-yapi` README 中最后两个 TODO
+- [ ] 开发 `@study/vita-plugin-generator` 插件，可以参考 UMI 的微生成器方案（https://umijs.org/docs/guides/generator）
+- [ ] 调研 docusaurus 作为文档网站
