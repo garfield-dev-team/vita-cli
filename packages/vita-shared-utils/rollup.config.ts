@@ -15,7 +15,11 @@ const config = defineConfig(
       entryFileNames: "index.js",
       format: "cjs",
     },
-    plugins: [resolve(), commonjs(), packageMeta()],
+    plugins: [
+      resolve(),
+      commonjs(),
+      packageMeta({ outDir: `compiled/${pkg}` }),
+    ],
   })),
 );
 
