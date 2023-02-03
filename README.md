@@ -61,6 +61,8 @@ $ pnpm install --prod
 
 ## Get started
 
+> 建议本地自己拉一个开发分支，然后通过 Merge Request 提交代码
+
 安装依赖：
 
 ```bash
