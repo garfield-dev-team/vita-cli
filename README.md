@@ -14,18 +14,6 @@
 | @study/vita-plugin-react-native  | Work In Progress | 构建 RN 工程插件                           |
 | @study/vita-shared-utils         | v1.0.0           | Vita-cli 公共包                            |
 
-## 欢迎感兴趣的同学加入共建
-
-我可以获得什么：
-
-- 大型 Monorepo 项目开发经验
-- Node + TypeScript 项目开发经验
-- 参与解决复杂前端工程化问题
-- 发现业务中的痛点，亲自编写工具解决，而且有机会被其他团队的同学使用
-- 随时与 Vita Contributor 成员探讨前沿技术、职业发展、软技能等等
-- 学到很多开源知识，提升日常开发技能
-- 最重要的是，晋升可以作为加分项
-
 ## Why
 
 部门内部现有的 CLI 工具存在哪些问题：
@@ -84,3 +72,15 @@ $ pnpm install
 ```bash
 $ pnpm run build:all
 ```
+
+## 欢迎感兴趣的同学加入共建
+
+我可以获得什么：
+
+- 大型 Monorepo 项目开发经验
+- Node + TypeScript 项目开发经验
+- 参与解决复杂前端工程化问题
+- 发现业务中的痛点，亲自编写工具解决，而且有机会被其他团队的同学使用
+- 随时与 Vita Contributor 成员探讨前沿技术、职业发展、软技能等等
+- 学到很多开源知识，提升日常开发技能
+- 最重要的是，晋升可以作为加分项
