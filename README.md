@@ -84,3 +84,10 @@ $ pnpm run build:all
 - 随时与 Vita Contributor 成员探讨前沿技术、职业发展、软技能等等
 - 学到很多开源知识，提升日常开发技能
 - 最重要的是，晋升可以作为加分项
+
+## TODOs
+
+- [] 接入 Changeset 发包流程（可以参考这个工程：https://g.hz.netease.com/ykt-front/common-nav-header）
+- [] 调研、尝试解决 `@study/vita-plugin-yapi` README 中最后两个 TODO
+- [] 开发 `@study/vita-plugin-generator` 插件，可以参考 UMI 的微生成器方案（https://umijs.org/docs/guides/generator）
+- [] 调研 docusaurus 作为文档网站
