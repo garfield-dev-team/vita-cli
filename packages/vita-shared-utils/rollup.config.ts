@@ -14,6 +14,7 @@ const config = defineConfig(
       dir: `compiled/${pkg}`,
       entryFileNames: "index.js",
       format: "cjs",
+      exports: "named",
     },
     plugins: [
       resolve(),
