@@ -7,8 +7,7 @@
     "compiled"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "//build": "rollup --input src/index.ts --format cjs --exports named"
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "keywords": [],
   "author": "",
