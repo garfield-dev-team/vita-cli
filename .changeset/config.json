@@ -5,7 +5,7 @@
   "fixed": [],
   "linked": [["@study/*"]],
   "access": "restricted",
-  "baseBranch": "main",
+  "baseBranch": "master",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": ["examples"]
 }
