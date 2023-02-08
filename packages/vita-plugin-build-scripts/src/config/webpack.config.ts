@@ -94,8 +94,8 @@ export async function configFactory({
     // .assetModuleFilenamet("static/media/[name].[hash][ext]")
     .publicPath(process.env.PUBLIC_URL || "auto")
     .set("assetModuleFilename", "static/media/[name].[hash][ext]")
-    .set("hashFunction", "xxhash64")
-    .clean(true);
+    .set("hashFunction", "xxhash64");
+    // .clean(true);
 
   // resolve
   // prettier-ignore
