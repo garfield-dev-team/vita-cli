@@ -7,17 +7,25 @@
   "scripts": {
     "build:all": "turbo run build",
     "turbo:clean": "rimraf packages/*/.turbo",
-    "clean": "rimraf packages/*/{dist,typings,compiled}"
+    "clean": "rimraf packages/*/{dist,typings,compiled}",
+    "changeset": "changeset add",
+    "version-packages": "changeset version",
+    "changeset-publish": "cross-env npm_config_registry=http://rnpm.hz.netease.com/ changeset publish",
+    "prerelease": "pnpm version-packages && pnpm build:all",
+    "release": "pnpm changeset-publish && pnpm clean",
+    "preinstall": "npx only-allow pnpm"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.26.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.11.18",
+    "cross-env": "^7.0.3",
     "fs-extra": "^11.1.0",
     "rimraf": "^4.1.2",
     "rollup": "^3.11.0",
