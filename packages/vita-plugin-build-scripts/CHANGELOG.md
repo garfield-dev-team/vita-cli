@@ -1,5 +1,11 @@
 # @study/vita-plugin-build-scripts
 
+## 1.0.3
+
+### Patch Changes
+
+- 630d720: 版本更新
+
 ## 1.0.2
 
 ### Patch Changes
