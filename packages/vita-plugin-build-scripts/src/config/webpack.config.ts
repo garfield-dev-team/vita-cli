@@ -437,7 +437,7 @@ export async function configFactory({
     });
 
   if (chainWebpack) {
-    chainWebpack(config);
+    chainWebpack(config, env);
   }
 
   if (modifyWebpackConfig) {
