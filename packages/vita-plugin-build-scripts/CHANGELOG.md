@@ -1,5 +1,11 @@
 # @study/vita-plugin-build-scripts
 
+## 1.0.5
+
+### Patch Changes
+
+- b982d40: 锁定依赖, @babel/runtime 作为 peerDeps
+
 ## 1.0.4
 
 ### Patch Changes
