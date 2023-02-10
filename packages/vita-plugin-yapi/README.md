@@ -39,6 +39,8 @@ $ pnpm add @study/vita-cli
 $ pnpm add @study/vita-plugin-yapi -D
 ```
 
+> 业务工程中 `@study/vita-plugin-yapi` 建议作为 `devDependencies` 进行安装
+
 在根目录创建一份配置文件，配置文件可以是以下类型中的一种：
 
 ```ts
