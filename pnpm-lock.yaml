@@ -59,57 +59,55 @@ importers:
 
   packages/vita-cli-core:
     specifiers:
-      cac: ^6.7.14
+      cac: 6.7.14
     dependencies:
       cac: 6.7.14
 
   packages/vita-plugin-build-scripts:
     specifiers:
-      '@babel/core': ^7.20.12
-      '@babel/plugin-transform-runtime': ^7.19.6
-      '@babel/preset-env': ^7.20.2
-      '@babel/preset-react': ^7.18.6
-      '@babel/preset-typescript': ^7.18.6
-      '@babel/runtime': ^7.20.13
-      '@pmmmwh/react-refresh-webpack-plugin': ^0.5.10
-      '@svgr/webpack': ^6.5.1
-      babel-loader: ^9.1.2
-      browserslist: ^4.18.1
+      '@babel/core': 7.20.12
+      '@babel/plugin-transform-runtime': 7.19.6
+      '@babel/preset-env': 7.20.2
+      '@babel/preset-react': 7.18.6
+      '@babel/preset-typescript': 7.18.6
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10
+      '@svgr/webpack': 6.5.1
+      babel-loader: 9.1.2
+      browserslist: 4.21.4
       cac: ^6.7.14
-      case-sensitive-paths-webpack-plugin: ^2.4.0
-      css-loader: ^6.7.3
-      css-minimizer-webpack-plugin: ^4.2.2
-      dotenv: ^16.0.3
-      dotenv-expand: ^10.0.0
-      file-loader: ^6.2.0
-      fork-ts-checker-webpack-plugin: ^6.5.0
-      fs-extra: ^11.1.0
-      html-webpack-plugin: ^5.5.0
-      less-loader: ^11.1.0
-      mini-css-extract-plugin: ^2.7.2
-      postcss: ^8.4.4
-      postcss-flexbugs-fixes: ^5.0.2
-      postcss-loader: ^6.2.1
-      postcss-normalize: ^10.0.1
-      postcss-preset-env: ^7.0.1
-      react-dev-utils: ^12.0.1
-      react-refresh: ^0.14.0
-      resolve: ^1.22.1
-      sass-loader: ^13.2.0
-      style-loader: ^3.3.1
-      terser-webpack-plugin: ^5.3.6
-      webpack: ^5.75.0
-      webpack-5-chain: ^8.0.1
-      webpack-bundle-analyzer: ^4.7.0
-      webpack-dev-server: ^4.11.1
-      webpackbar: ^5.0.2
+      case-sensitive-paths-webpack-plugin: 2.4.0
+      css-loader: 6.7.3
+      css-minimizer-webpack-plugin: 4.2.2
+      dotenv: 16.0.3
+      dotenv-expand: 10.0.0
+      file-loader: 6.2.0
+      fork-ts-checker-webpack-plugin: 6.5.2
+      fs-extra: 11.1.0
+      html-webpack-plugin: 5.5.0
+      less-loader: 11.1.0
+      mini-css-extract-plugin: 2.7.2
+      postcss: 8.4.21
+      postcss-flexbugs-fixes: 5.0.2
+      postcss-loader: 6.2.1
+      postcss-normalize: 10.0.1
+      postcss-preset-env: 7.8.3
+      react-dev-utils: 12.0.1
+      react-refresh: 0.14.0
+      resolve: 1.22.1
+      sass-loader: 13.2.0
+      style-loader: 3.3.1
+      terser-webpack-plugin: 5.3.6
+      webpack: 5.75.0
+      webpack-5-chain: 8.0.1
+      webpack-bundle-analyzer: 4.7.0
+      webpack-dev-server: 4.11.1
+      webpackbar: 5.0.2
     dependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-transform-runtime': 7.19.6_@babel+core@7.20.12
       '@babel/preset-env': 7.20.2_@babel+core@7.20.12
       '@babel/preset-react': 7.18.6_@babel+core@7.20.12
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.12
-      '@babel/runtime': 7.20.13
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_e764yt37rymiplqgpb7fiwcihu
       '@svgr/webpack': 6.5.1
       babel-loader: 9.1.2_la66t7xldg4uecmyawueag5wkm
@@ -148,8 +146,8 @@ importers:
     specifiers:
       '@study/vita-shared-utils': workspace:*
       cac: ^6.7.14
-      consola: ^2.15.3
-      fs-extra: ^11.1.0
+      consola: 2.15.3
+      fs-extra: 11.1.0
     dependencies:
       '@study/vita-shared-utils': link:../vita-shared-utils
       consola: 2.15.3
@@ -2331,13 +2329,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.4.10
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: false
 
   /@types/eslint/8.4.10:
     resolution: {integrity: sha512-Sl/HOqN8NKPmhWo2VBEPm0nvHnu2LL3v9vKo8MEq0EtbJ4eVzGPl41VNPvn5E1i5poMk4/XD8UriLHpJvEP/Nw==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: false
 
@@ -2347,7 +2345,6 @@ packages:
 
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
-    dev: true
 
   /@types/express-serve-static-core/4.17.33:
     resolution: {integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==}
