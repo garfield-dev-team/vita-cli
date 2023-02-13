@@ -12,6 +12,9 @@ export type IBuildOptions = {
   // 是否启用 automatic JSX
   // 默认启用，可以配置 `false` fallback 到 classic JSX
   enableNewJsxTransform?: boolean;
+  // 生产环境打包是否通过 style-loader 强制内联样式
+  // 默认值 false，仅在某些特殊场景下启用
+  forceInlineStyle?: boolean;
   // 配置代理功能，仅在 dev 时有效
   proxy?: {};
   // 提供给 less-loader 的主题变量

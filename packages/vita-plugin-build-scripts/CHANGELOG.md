@@ -1,5 +1,11 @@
 # @study/vita-plugin-build-scripts
 
+## 1.0.6
+
+### Patch Changes
+
+- 增加 forceInlineStyle 选项
+
 ## 1.0.5
 
 ### Patch Changes

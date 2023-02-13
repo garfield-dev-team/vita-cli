@@ -38,6 +38,7 @@ type IOpts = {
 export type IConfigCtx = {
   env: WebpackEnvEnum;
   config: Config;
+  forceInlineStyle: boolean;
   theme: {};
   shouldUseSourceMap: boolean;
 };
@@ -47,6 +48,7 @@ export async function configFactory({
   analyze = false,
   codeSplitting = true,
   enableNewJsxTransform = true,
+  forceInlineStyle = false,
   proxy,
   theme = {},
   chainWebpack,
@@ -63,6 +65,7 @@ export async function configFactory({
   const context: IConfigCtx = {
     env,
     config,
+    forceInlineStyle,
     theme,
     shouldUseSourceMap,
   };
@@ -290,7 +293,7 @@ export async function configFactory({
         .end();
   }
 
-  if (isEnvProduction) {
+  if (isEnvProduction && !forceInlineStyle) {
     config
       .plugin("mini-css-extract-plugin")
         .use(MiniCssExtractPlugin, [

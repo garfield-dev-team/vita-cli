@@ -73,7 +73,7 @@ const createRuleConfig = ({ theme }: IConfigCtx): IConfig[] => ([
 ]);
 
 const createBaseRule = (
-  { env, config, shouldUseSourceMap }: IConfigCtx,
+  { env, config, forceInlineStyle, shouldUseSourceMap }: IConfigCtx,
   { name, test, exclude, importLoaders, isCSSModules }: IConfig
 ) => {
   const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
@@ -89,7 +89,7 @@ const createBaseRule = (
     rule.sideEffects(true);
   }
 
-  if (isEnvDevelopment) {
+  if (isEnvDevelopment || forceInlineStyle) {
     rule
       .use("style-loader")
         .loader(require.resolve("style-loader"))
