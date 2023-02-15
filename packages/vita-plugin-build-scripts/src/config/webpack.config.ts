@@ -5,9 +5,10 @@ import resolve from "resolve";
 import webpack from "webpack";
 import Config from "webpack-5-chain";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import ESLintPlugin from "eslint-webpack-plugin";
 // @ts-ignore
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
@@ -27,20 +28,27 @@ import {
   appTsBuildInfoFile,
 } from "./paths";
 import { addCSSRules } from "./cssRule";
-import { WebpackEnvEnum } from "../utils/constants";
+import { IS_CI_ENV, WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
 import { getClientEnviron } from "../utils/helpers";
+import { getBabelConfig } from "./babel";
 
 type IOpts = {
   env: WebpackEnvEnum;
 } & IBuildOptions;
 
-export type IConfigCtx = {
+export type ICSSRuleConfigCtx = {
   env: WebpackEnvEnum;
   config: Config;
   forceInlineStyle: boolean;
   theme: {};
   shouldUseSourceMap: boolean;
+};
+
+export type IBabelConfigCtx = {
+  env: WebpackEnvEnum;
+  useTypeScript: boolean;
+  enableNewJsxTransform: boolean;
 };
 
 export async function configFactory({
@@ -58,17 +66,25 @@ export async function configFactory({
   const isEnvProduction = env === WebpackEnvEnum.PRODUCTION;
   const stringifiedEnv = getClientEnviron(isEnvDevelopment);
   const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false' || isEnvDevelopment;
+  const emitErrorsAsWarnings = process.env.ESLINT_NO_PROD_ERRORS === 'true';
+  const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
   const useTypeScript = fs.existsSync(appTsConfig);
 
   const config = new Config();
 
-  const context: IConfigCtx = {
+  const cssRuleContext: ICSSRuleConfigCtx = {
     env,
     config,
     forceInlineStyle,
     theme,
     shouldUseSourceMap,
   };
+
+  const babelConfigContext: IBabelConfigCtx = {
+    env,
+    useTypeScript,
+    enableNewJsxTransform
+  }
 
   // mode
   config.mode(isEnvDevelopment ? "development" : "production");
@@ -125,58 +141,11 @@ export async function configFactory({
         .end()
       .use("babel-loader")
         .loader(require.resolve("babel-loader"))
-        .options({
-          presets: [
-            useTypeScript && "@babel/preset-typescript",
-            [
-              "@babel/preset-env",
-              {
-                modules: false,
-                useBuiltIns: "entry",
-                corejs: 3
-              }
-            ],
-            [
-              "@babel/preset-react",
-              {
-                runtime: enableNewJsxTransform ? "automatic": "classic",
-              }
-            ]
-          ].filter(Boolean),
-          babelrc: false,
-          configFile: false,
-          // 除了 `@babel/plugin-proposal-decorators`、`@babel/plugin-proposal-private-methods` 仍在提案阶段
-          // 其他语法已经全部纳入 `@babel/preset-env`，无需单独安装语法插件
-          plugins: [
-            // 开发环境启用 `react-refresh` 热更新 React 组件
-            isEnvDevelopment && require.resolve("react-refresh/babel"),
-            [
-              "@babel/plugin-transform-runtime",
-              {
-                // 不需要该插件引入 polyfill
-                // 默认就是 false
-                corejs: false,
-                // helper 函数从 @babel/runtime 引入
-                // 默认就是 true
-                helpers: true,
-                version: require('@babel/runtime/package.json').version,
-                // regeneratorRuntime 是否通过模块导入（Babel 7.18.0 后支持）
-                // 如果为 false 则从全局作用域获取
-                // 默认为 true
-                regenerator: true,
-              }
-            ]
-          ].filter(Boolean),
-          // 启用 babel-loader 缓存能力
-          // Webpack5 自带的持久化缓存粒度太大，修改配置文件就会导致缓存失效
-          cacheDirectory: true,
-          cacheCompression: false,
-          compact: isEnvProduction,
-        })
+        .options(getBabelConfig(babelConfigContext))
         .end()
       .end();
 
-  addCSSRules(context);
+  addCSSRules(cssRuleContext);
 
   config.module
     .rule("svg")
@@ -293,18 +262,57 @@ export async function configFactory({
         .end();
   }
 
-  if (isEnvProduction && !forceInlineStyle) {
-    config
-      .plugin("mini-css-extract-plugin")
-        .use(MiniCssExtractPlugin, [
-          {
-            filename: "static/css/[name].[contenthash:8].css",
-            chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
-            // 解决用了 antd 组件库之后，抽提样式冲突问题
-            ignoreOrder: true,
-          },
-        ])
-        .end();
+  if (isEnvProduction) {
+    if (!forceInlineStyle) {
+      config
+        .plugin("mini-css-extract-plugin")
+          .use(MiniCssExtractPlugin, [
+            {
+              filename: "static/css/[name].[contenthash:8].css",
+              chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+              // 解决用了 antd 组件库之后，抽提样式冲突问题
+              ignoreOrder: true,
+            },
+          ])
+          .end();
+    }
+
+    if (IS_CI_ENV && !disableESLintPlugin) {
+      // 参考 UMI 4 的方案
+      // 开发环境禁用 ESLint 插件（开了会影响构建速度，用编辑器提示就行）
+      // 生产环境启用 ESLint 插件（主要用于 CI 检查，可以选择禁用或者将错误转为警告）
+      config
+        .plugin("eslint-webpack-plugin")
+          .use(ESLintPlugin, [
+            {
+              extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+              formatter: require.resolve('react-dev-utils/eslintFormatter'),
+              // 启用多线程提升 CI 构建效率
+              threads: true,
+              eslintPath: require.resolve('eslint'),
+              failOnError: !emitErrorsAsWarnings,
+              context: appSrc,
+              cache: true,
+              cacheLocation: path.resolve(
+                appNodeModules,
+                '.cache/.eslintcache'
+              ),
+              // ESLint class options
+              cwd: appPath,
+              resolvePluginsRelativeTo: __dirname,
+              baseConfig: {
+                // TODO: 改用 UMI 4 的 lint 规则
+                // https://github.com/umijs/umi/blob/master/packages/lint/src/config/eslint/index.ts
+                extends: [require.resolve('eslint-config-react-app/base')],
+                rules: {
+                  ...(!enableNewJsxTransform && {
+                    'react/react-in-jsx-scope': 'error',
+                  }),
+                },
+              },
+            }
+          ]);
+    }
   }
 
   if (useTypeScript) {
