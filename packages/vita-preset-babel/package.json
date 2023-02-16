@@ -19,8 +19,5 @@
   },
   "peerDependencies": {
     "@study/vita-plugin-build-scripts": "workspace:*"
-  },
-  "devDependencies": {
-    "@study/vita-plugin-build-scripts": "workspace:*"
   }
 }

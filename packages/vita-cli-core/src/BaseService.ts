@@ -16,7 +16,8 @@ class BaseService {
 
     const filePath = path.resolve(configRoot, `node_modules/${packageName}`);
     if (fs.existsSync(filePath)) {
-      return require(filePath);
+      const module = require(filePath);
+      return module.default || module;
     }
     if (Object.keys(dependencies).includes(packageName)) {
       throw new Error(
