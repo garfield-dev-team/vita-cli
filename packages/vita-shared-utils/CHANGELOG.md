@@ -1,5 +1,11 @@
 # @study/vita-shared-utils
 
+## 1.0.8
+
+### Patch Changes
+
+- 改动较多,整体更新下
+
 ## 1.0.2
 
 ### Patch Changes

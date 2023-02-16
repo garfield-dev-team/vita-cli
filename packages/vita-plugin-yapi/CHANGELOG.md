@@ -1,5 +1,13 @@
 # @study/vita-plugin-yapi
 
+## 1.0.8
+
+### Patch Changes
+
+- 改动较多,整体更新下
+- Updated dependencies
+  - @study/vita-shared-utils@1.0.8
+
 ## 1.0.5
 
 ### Patch Changes

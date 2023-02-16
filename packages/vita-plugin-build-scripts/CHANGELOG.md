@@ -1,5 +1,14 @@
 # @study/vita-plugin-build-scripts
 
+## 1.0.8
+
+### Patch Changes
+
+- 改动较多,整体更新下
+- Updated dependencies
+  - @study/vita-config-eslint@1.0.8
+  - @study/vita-preset-babel@1.0.8
+
 ## 1.0.7
 
 ### Patch Changes
