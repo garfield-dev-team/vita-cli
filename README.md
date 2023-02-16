@@ -6,13 +6,15 @@
 
 | Package                          | Version          | Desc                                       |
 | -------------------------------- | ---------------- | ------------------------------------------ |
-| @study/vita-cli                  | v1.0.2           | 云课堂公共 cli 工具                        |
-| @study/vita-plugin-build-scripts | v1.0.2           | 构建 CSR 应用插件                          |
+| @study/vita-config-eslint        | v1.0.8           | ESLint 配置                                |
+| @study/vita-cli                  | v1.0.8           | 云课堂公共 cli 工具                        |
+| @study/vita-plugin-build-scripts | v1.0.8           | 构建 CSR 应用插件                          |
 | @study/vita-plugin-build-ssr     | Work In Progress | 构建 SSR 应用插件                          |
 | @study/vita-plugin-generator     | Work In Progress | 微生成器插件                               |
-| @study/vita-plugin-yapi          | v1.0.2           | 基于 Yapi 接口文档自动生成 TS 类型定义插件 |
 | @study/vita-plugin-react-native  | Work In Progress | 构建 RN 工程插件                           |
-| @study/vita-shared-utils         | v1.0.2           | Vita-cli 公共包                            |
+| @study/vita-plugin-yapi          | v1.0.8           | 基于 Yapi 接口文档自动生成 TS 类型定义插件 |
+| @study/vita-preset-babel         | v1.0.8           | Babel 配置                                 |
+| @study/vita-shared-utils         | v1.0.8           | Vita-cli 公共包                            |
 
 ## Why
 
