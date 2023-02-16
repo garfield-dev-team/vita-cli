@@ -6,8 +6,8 @@
 
 | Package                          | Version          | Desc                                       |
 | -------------------------------- | ---------------- | ------------------------------------------ |
-| @study/vita-config-eslint        | v1.0.8           | ESLint 配置                                |
 | @study/vita-cli                  | v1.0.8           | 云课堂公共 cli 工具                        |
+| @study/vita-config-eslint        | v1.0.8           | ESLint 配置                                |
 | @study/vita-plugin-build-scripts | v1.0.8           | 构建 CSR 应用插件                          |
 | @study/vita-plugin-build-ssr     | Work In Progress | 构建 SSR 应用插件                          |
 | @study/vita-plugin-generator     | Work In Progress | 微生成器插件                               |
