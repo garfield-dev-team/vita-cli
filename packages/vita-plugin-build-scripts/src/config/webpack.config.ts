@@ -31,7 +31,6 @@ import { addCSSRules } from "./cssRule";
 import { IS_CI_ENV, WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
 import { getClientEnviron } from "../utils/helpers";
-import { getBabelConfig } from "./babel";
 
 type IOpts = {
   env: WebpackEnvEnum;
@@ -141,7 +140,25 @@ export async function configFactory({
         .end()
       .use("babel-loader")
         .loader(require.resolve("babel-loader"))
-        .options(getBabelConfig(babelConfigContext))
+        .options({
+          presets: [
+            [
+              require.resolve("./babel"),
+              babelConfigContext,
+            ]
+          ],
+          babelrc: false,
+          configFile: false,
+          plugins: [
+            // 开发环境启用 `react-refresh` 热更新 React 组件
+            isEnvDevelopment && require.resolve("react-refresh/babel"),
+          ].filter(Boolean),
+          // 启用 babel-loader 缓存能力
+          // Webpack5 自带的持久化缓存粒度太大，修改配置文件就会导致缓存失效
+          cacheDirectory: true,
+          cacheCompression: false,
+          compact: isEnvProduction,
+        })
         .end()
       .end();
 
@@ -301,9 +318,24 @@ export async function configFactory({
               cwd: appPath,
               resolvePluginsRelativeTo: __dirname,
               baseConfig: {
-                // TODO: 改用 UMI 4 的 lint 规则
-                // https://github.com/umijs/umi/blob/master/packages/lint/src/config/eslint/index.ts
-                extends: [require.resolve('eslint-config-react-app/base')],
+                extends: [require.resolve("./eslint")],
+                parserOptions: {
+                  ecmaFeatures: {
+                    jsx: true,
+                  },
+                  babelOptions: {
+                    babelrc: false,
+                    configFile: false,
+                    browserslistConfigFile: false,
+                    presets: [
+                      [
+                        require.resolve("./babel"),
+                        babelConfigContext,
+                      ]
+                    ],
+                  },
+                  requireConfigFile: false,
+                },
                 rules: {
                   ...(!enableNewJsxTransform && {
                     'react/react-in-jsx-scope': 'error',

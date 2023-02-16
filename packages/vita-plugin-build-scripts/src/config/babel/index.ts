@@ -1,8 +1,7 @@
-import { WebpackEnvEnum } from "../utils/constants";
-import type { IBabelConfigCtx } from "./webpack.config";
+import { WebpackEnvEnum } from "../../utils/constants";
+import type { IBabelConfigCtx } from "../webpack.config";
 
-export const getBabelConfig = ({ env, useTypeScript, enableNewJsxTransform }: IBabelConfigCtx) => {
-  const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
+const getBabelPreset = ({ env, useTypeScript, enableNewJsxTransform }: IBabelConfigCtx) => {
   const isEnvProduction = env === WebpackEnvEnum.PRODUCTION;
 
   return {
@@ -23,13 +22,9 @@ export const getBabelConfig = ({ env, useTypeScript, enableNewJsxTransform }: IB
         }
       ]
     ].filter(Boolean),
-    babelrc: false,
-    configFile: false,
     // 除了 `@babel/plugin-proposal-decorators`、`@babel/plugin-proposal-private-methods` 仍在提案阶段
     // 其他语法已经全部纳入 `@babel/preset-env`，无需单独安装语法插件
     plugins: [
-      // 开发环境启用 `react-refresh` 热更新 React 组件
-      isEnvDevelopment && require.resolve("react-refresh/babel"),
       [
         "@babel/plugin-transform-runtime",
         {
@@ -54,10 +49,9 @@ export const getBabelConfig = ({ env, useTypeScript, enableNewJsxTransform }: IB
         },
       ],
     ].filter(Boolean),
-    // 启用 babel-loader 缓存能力
-    // Webpack5 自带的持久化缓存粒度太大，修改配置文件就会导致缓存失效
-    cacheDirectory: true,
-    cacheCompression: false,
-    compact: isEnvProduction,
   };
+}
+
+export default function (api: any, opts: IBabelConfigCtx) {
+  return getBabelPreset(opts);
 }
