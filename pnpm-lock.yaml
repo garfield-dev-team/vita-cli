@@ -182,15 +182,7 @@ importers:
       cac: 6.7.14
 
   packages/vita-preset-babel:
-    specifiers:
-      '@babel/runtime': 7.20.13
-      '@study/vita-plugin-build-scripts': workspace:*
-      core-js: 3.28.0
-    dependencies:
-      '@babel/runtime': 7.20.13
-      core-js: 3.28.0
-    devDependencies:
-      '@study/vita-plugin-build-scripts': link:../vita-plugin-build-scripts
+    specifiers: {}
 
   packages/vita-shared-utils:
     specifiers:
@@ -3557,11 +3549,6 @@ packages:
 
   /core-js-pure/3.27.2:
     resolution: {integrity: sha512-Cf2jqAbXgWH3VVzjyaaFkY1EBazxugUepGymDoeteyYr9ByX51kD2jdHZlsEF/xnJMyN3Prua7mQuzwMg6Zc9A==}
-    requiresBuild: true
-    dev: false
-
-  /core-js/3.28.0:
-    resolution: {integrity: sha512-GiZn9D4Z/rSYvTeg1ljAIsEqFm0LaN9gVtwDCrKL80zHtS31p9BAjmTxVqTQDMpwlMolJZOFntUG2uwyj7DAqw==}
     requiresBuild: true
     dev: false
 

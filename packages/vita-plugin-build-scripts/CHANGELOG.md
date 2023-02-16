@@ -1,5 +1,16 @@
 # @study/vita-plugin-build-scripts
 
+## 1.0.7
+
+### Patch Changes
+
+- fece63f: 引入 ESLint 规则
+- d1446e7: 添加 @study/vita-preset-babel
+- 930c2ff: Babel 单独抽提配置,CI 环境默认启用 ESLint 检查
+- 20f5428: 添加 @study/vita-config-eslint
+- Updated dependencies [d1446e7]
+  - @study/vita-preset-babel@1.0.7
+
 ## 1.0.6
 
 ### Patch Changes
