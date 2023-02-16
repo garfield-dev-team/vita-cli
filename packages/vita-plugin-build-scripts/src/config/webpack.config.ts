@@ -28,8 +28,6 @@ import {
   appTsBuildInfoFile,
 } from "./paths";
 import { addCSSRules } from "./cssRule";
-import * as _babel from "./babel";
-import * as _eslint from "./eslint";
 import { IS_CI_ENV, WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
 import { getClientEnviron } from "../utils/helpers";
@@ -145,7 +143,7 @@ export async function configFactory({
         .options({
           presets: [
             [
-              require.resolve("./babel"),
+              require.resolve("@study/vita-preset-babel"),
               babelConfigContext,
             ]
           ],
@@ -320,7 +318,7 @@ export async function configFactory({
               cwd: appPath,
               resolvePluginsRelativeTo: __dirname,
               baseConfig: {
-                extends: [require.resolve("./eslint")],
+                extends: [require.resolve("@study/vita-config-eslint")],
                 parserOptions: {
                   ecmaFeatures: {
                     jsx: true,
@@ -331,7 +329,7 @@ export async function configFactory({
                     browserslistConfigFile: false,
                     presets: [
                       [
-                        require.resolve("./babel"),
+                        require.resolve("@study/vita-preset-babel"),
                         babelConfigContext,
                       ]
                     ],
