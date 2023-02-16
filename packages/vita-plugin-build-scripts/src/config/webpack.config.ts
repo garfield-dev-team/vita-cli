@@ -28,6 +28,8 @@ import {
   appTsBuildInfoFile,
 } from "./paths";
 import { addCSSRules } from "./cssRule";
+import * as _babel from "./babel";
+import * as _eslint from "./eslint";
 import { IS_CI_ENV, WebpackEnvEnum } from "../utils/constants";
 import { IBuildOptions } from "../types/global";
 import { getClientEnviron } from "../utils/helpers";

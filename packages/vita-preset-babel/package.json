@@ -1,0 +1,22 @@
+{
+  "name": "@study/vita-preset-babel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "typings": "./dist/typings/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@study/vita-plugin-build-scripts": "workspace:*"
+  },
+  "devDependencies": {
+    "@study/vita-plugin-build-scripts": "workspace:*"
+  }
+}

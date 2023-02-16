@@ -1,6 +1,8 @@
 import type { CAC } from "cac";
+import type { IBabelConfigCtx } from "./config/webpack.config";
 import type { IDevServerOpts } from "./scripts/serve";
 import type { IBuildOptions } from "./types/global";
+import { WebpackEnvEnum } from "./utils/constants";
 import { loadEnvironFromEnvFiles } from "./utils/helpers";
 
 class BuildScriptsPlugin {
@@ -57,6 +59,6 @@ class BuildScriptsPlugin {
   }
 }
 
-export { IBuildOptions };
+export { IBuildOptions, WebpackEnvEnum, IBabelConfigCtx };
 
 export default BuildScriptsPlugin;

@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vita serve --port 3000 --open",
     "build:staging": "vita build --mode staging",
-    "build:prod": "vita build",
+    "build:prod": "CI=true && vita build",
     "build:type": "vita yapi"
   },
   "keywords": [],

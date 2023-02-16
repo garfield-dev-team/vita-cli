@@ -1,5 +1,5 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { IConfigCtx } from "./webpack.config";
+import { ICSSRuleConfigCtx } from "./webpack.config";
 import { WebpackEnvEnum } from "../utils/constants";
 
 type IConfig = {
@@ -12,7 +12,7 @@ type IConfig = {
   loaderOptions?: {};
 };
 
-const createRuleConfig = ({ theme }: IConfigCtx): IConfig[] => ([
+const createRuleConfig = ({ theme }: ICSSRuleConfigCtx): IConfig[] => ([
   {
     name: "css",
     test: /\.css$/i,
@@ -73,7 +73,7 @@ const createRuleConfig = ({ theme }: IConfigCtx): IConfig[] => ([
 ]);
 
 const createBaseRule = (
-  { env, config, forceInlineStyle, shouldUseSourceMap }: IConfigCtx,
+  { env, config, forceInlineStyle, shouldUseSourceMap }: ICSSRuleConfigCtx,
   { name, test, exclude, importLoaders, isCSSModules }: IConfig
 ) => {
   const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
@@ -146,7 +146,7 @@ const createBaseRule = (
   return rule;
 }
 
-export const addCSSRules = (ctx: IConfigCtx) => {
+export const addCSSRules = (ctx: ICSSRuleConfigCtx) => {
   const ruleConfig = createRuleConfig(ctx);
 
   ruleConfig.forEach((cssRule) => {
