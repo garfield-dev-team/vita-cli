@@ -13,10 +13,22 @@ Vita-cli 内部 Webpack 配置基于 `webpack-chain`、TypeScript 编写，通�
 安装依赖：
 
 ```bash
-$ pnpm add @study/vita-cli @study/vita-plugin-build-scripts @babel/runtime core-js
+$ pnpm add @study/vita-cli @study/vita-plugin-build-scripts @babel/runtime
 ```
 
-> 注意，由于 PNPM 默认创建半严格 `node_modules`，允许第三方库访问未声明依赖，不允许业务代码访问未声明依赖，因此 `@babel/runtime` 需要作为业务工程的 `dependencies`。为了让业务工程可以用上最新的 API，需要将 `core-js` 作为业务工程依赖
+> 注意，由于 PNPM 默认创建半严格 `node_modules`，允许第三方库访问未声明依赖，不允许业务代码访问未声明依赖，因此 `@babel/runtime` 需要作为业务工程的 `dependencies`
+
+注意 `@study/vita-plugin-build-scripts` 默认不带 polyfill，如需 polyfill 需要安装依赖：
+
+```bash
+$ pnpm add @study/vita-app-polyfill
+```
+
+然后在入口文件引入：
+
+```ts
+import "@study/vita-app-polyfill";
+```
 
 本地开发：
 
