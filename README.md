@@ -7,7 +7,7 @@
 | Package                          | Version          | Desc                                       |
 | -------------------------------- | ---------------- | ------------------------------------------ |
 | @study/vita-cli                  | v1.0.9           | 云课堂公共 cli 工具                        |
-| @study/vita-app-polyfill         | v1.0.9           | language features poiyfill                 |
+| @study/vita-app-polyfill         | v1.0.9           | language features polyfill                 |
 | @study/vita-config-eslint        | v1.0.9           | ESLint 配置                                |
 | @study/vita-plugin-build-scripts | v1.0.9           | 构建 CSR 应用插件                          |
 | @study/vita-plugin-build-ssr     | Work In Progress | 构建 SSR 应用插件                          |
