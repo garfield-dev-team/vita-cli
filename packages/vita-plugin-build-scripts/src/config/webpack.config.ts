@@ -227,7 +227,15 @@ export async function configFactory({
     .hot(true)
     .proxy(proxy)
     // .open(true)
+    // 支持历史模式路由重定向
     .historyApiFallback(true)
+    // 本地开发支持 local 域名访问，便于透传 Cookie
+    .allowedHosts
+      .add("all")
+      .end()
+    .headers({
+      "access-control-allow-origin": "*",
+    })
     .host("0.0.0.0")
     .port(8066);
 
@@ -468,12 +476,17 @@ export async function configFactory({
                 .replace(/\+/g, '_')}`;
             },
           },
-          // Extracting all CSS/less in a single file
+          // 将样式抽提到一个单文件中
+          // 解决 code-split CSS 加载顺序不同造成样式不一致问题
+          // 推荐使用 CSS-in-JS，对 Code-Splitting 和 Tree-Shaking 都比较友好
           // styles: {
-          //   name: 'styles',
-          //   test: /\.(c|le)ss$/,
-          //   chunks: 'all',
-          //   enforce: true,
+          //   name: "styles",
+          //   // necessary to ensure async chunks are also extracted
+          //   test: (m: { type: string }) => {
+          //     return /css\/mini-extract/.test(m.type)
+          //   },
+          //   chunks: "all",
+          //   enforce: true
           // },
         },
       })

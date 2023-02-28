@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "vita serve --port 3000 --open",
+    "build:aaa": "rimraf node_modules/.cache && vita build",
     "build:staging": "vita build --mode staging",
     "build:prod": "CI=true && vita build",
     "build:type": "vita yapi"
@@ -26,9 +27,11 @@
     ]
   },
   "dependencies": {
+    "@babel/runtime": "7.21.0",
     "@study/vita-cli": "workspace:*",
     "@study/vita-plugin-build-scripts": "workspace:*",
     "antd": "^5.1.6",
+    "core-js": "3.29.0",
     "less": "^4.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

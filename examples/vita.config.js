@@ -6,6 +6,16 @@ module.exports = {
     // enableNewJsxTransform: false,
     proxy: {},
     theme: {},
+    chainWebpack(config) {
+      // config.mode("development");
+      config.devtool(false);
+      config.optimization.minimize(false);
+
+      config.externals({
+        react: "React",
+        "react-dom/client": "ReactDOM",
+      });
+    },
   },
   /** @type {import("@study/vita-plugin-yapi").IConfig} */
   yapi: {

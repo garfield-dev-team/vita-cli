@@ -1,6 +1,8 @@
+import "core-js/stable";
+// import "regenerator-runtime/runtime";
 import * as React from "react";
 import ReactDOM from "react-dom/client";
-import { Button } from "antd";
+// import { Button } from "antd";
 
 const { useState, useCallback } = React;
 
@@ -13,14 +15,34 @@ const App: React.FC = () => {
 
   const handleClick = useCallback(() => {
     console.log(state);
+    const aaa = [2, 3, 3].at(0);
+    console.log(aaa);
+    const sym = Symbol();
+    console.log(sym);
+
+    const promise = Promise.resolve();
+    console.log(promise);
+
+    const arr = ["arr", "yeah!"];
+    const check = arr.includes("yeah!");
+    console.log(check);
+
+    class Person {}
+
+    console.log(new Person());
+
+    console.log(arr[Symbol.iterator]());
+
+    Array.isArray([1, 2]);
   }, []);
 
   return (
     <>
       <div>测试内容2333</div>
-      <Button type="primary" onClick={handleClick}>
+      <button onClick={handleClick}>测试按钮</button>
+      {/* <Button type="primary" onClick={handleClick}>
         测试按钮
-      </Button>
+      </Button> */}
     </>
   );
 };

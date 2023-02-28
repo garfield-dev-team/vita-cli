@@ -1,4 +1,4 @@
-import { WebpackEnvEnum } from "@study/vita-plugin-build-scripts";
+import { WebpackEnvEnum } from "./constants";
 import type { IBabelConfigCtx } from "@study/vita-plugin-build-scripts";
 
 const getBabelPreset = ({
@@ -16,7 +16,7 @@ const getBabelPreset = ({
         {
           modules: false,
           useBuiltIns: "entry",
-          corejs: 3,
+          corejs: require("core-js/package.json").version,
         },
       ],
       [
