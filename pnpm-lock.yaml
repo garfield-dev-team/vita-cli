@@ -35,23 +35,23 @@ importers:
   examples:
     specifiers:
       '@babel/runtime': 7.21.0
+      '@study/vita-app-polyfill': workspace:*
       '@study/vita-cli': workspace:*
       '@study/vita-plugin-build-scripts': workspace:*
       '@study/vita-plugin-yapi': workspace:*
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
       antd: ^5.1.6
-      core-js: 3.29.0
       less: ^4.1.3
       react: ^18.2.0
       react-dom: ^18.2.0
       typescript: ^4.9.4
     dependencies:
       '@babel/runtime': 7.21.0
+      '@study/vita-app-polyfill': link:../packages/vita-app-polyfill
       '@study/vita-cli': link:../packages/vita-cli-core
       '@study/vita-plugin-build-scripts': link:../packages/vita-plugin-build-scripts
       antd: 5.1.6_biqbaboplfbrettd7655fr4n2y
-      core-js: 3.29.0
       less: 4.1.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -60,6 +60,14 @@ importers:
       '@study/vita-plugin-yapi': link:../packages/vita-plugin-yapi
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
+
+  packages/vita-app-polyfill:
+    specifiers:
+      core-js: 3.29.0
+      regenerator-runtime: 0.13.11
+    dependencies:
+      core-js: 3.29.0
+      regenerator-runtime: 0.13.11
 
   packages/vita-cli-core:
     specifiers:

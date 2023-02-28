@@ -1,5 +1,4 @@
-import "core-js/stable";
-// import "regenerator-runtime/runtime";
+import "@study/vita-app-polyfill";
 import * as React from "react";
 import ReactDOM from "react-dom/client";
 // import { Button } from "antd";

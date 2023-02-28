@@ -9,7 +9,7 @@ module.exports = {
     chainWebpack(config) {
       // config.mode("development");
       config.devtool(false);
-      config.optimization.minimize(false);
+      // config.optimization.minimize(false);
 
       config.externals({
         react: "React",

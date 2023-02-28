@@ -1,0 +1,19 @@
+{
+  "name": "@study/vita-app-polyfill",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "core-js": "3.29.0",
+    "regenerator-runtime": "0.13.11"
+  }
+}
