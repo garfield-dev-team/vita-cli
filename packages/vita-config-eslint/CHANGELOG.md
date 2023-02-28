@@ -1,5 +1,13 @@
 # @study/vita-config-eslint
 
+## 1.0.9
+
+### Patch Changes
+
+- 增加新的包,统一版本号
+- Updated dependencies
+  - @study/vita-plugin-build-scripts@1.0.9
+
 ## 1.0.8
 
 ### Patch Changes
