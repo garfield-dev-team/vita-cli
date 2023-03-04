@@ -313,6 +313,7 @@ export async function configFactory({
             {
               filename: "static/css/[name].[contenthash:8].css",
               chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+              // 参考 UMI 4、docusaurus 配置
               // 解决用了 antd 组件库之后，抽提样式冲突问题
               ignoreOrder: true,
             },

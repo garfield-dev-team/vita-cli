@@ -18,16 +18,16 @@ $ pnpm add @study/vita-cli @study/vita-plugin-build-scripts @babel/runtime
 
 > 注意，由于 PNPM 默认创建半严格 `node_modules`，允许第三方库访问未声明依赖，不允许业务代码访问未声明依赖，因此 `@babel/runtime` 需要作为业务工程的 `dependencies`
 
-注意 `@study/vita-plugin-build-scripts` 默认不带 polyfill，如需 polyfill 需要安装依赖：
+注意 `@study/vita-plugin-build-scripts` 默认不带 polyfill，如需 polyfill 可以在前端工程安装 `core-js`：
 
 ```bash
-$ pnpm add @study/vita-app-polyfill
+$ pnpm add core-js
 ```
 
 然后在入口文件引入：
 
 ```ts
-import "@study/vita-app-polyfill";
+import "core-js/stable";
 ```
 
 本地开发：
