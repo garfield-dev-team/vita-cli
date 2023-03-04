@@ -167,32 +167,50 @@ export async function configFactory({
   config.module
     .rule("svg")
     .test(/\.svg$/)
-    .issuer({
-      and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-    })
-    .use("@svgr/webpack")
-      .loader(require.resolve("@svgr/webpack"))
-      .options({
-        prettier: false,
-        svgo: false,
-        svgoConfig: {
-          plugins: [{ removeViewBox: false }],
-        },
-        titleProp: true,
-        ref: true,
-      })
-      .end()
-    .use("file-loader")
-      .loader(require.resolve("file-loader"))
-      .options({
-        name: "static/media/[name].[hash].[ext]",
-      })
-      .end()
-    .end();
+      .oneOf("svgr")
+        // 配置参考：
+        // https://github.com/facebook/docusaurus/blob/main/packages/docusaurus-utils/src/webpackUtils.ts#L112
+
+        // We don't want to use SVGR loader for non-React source code
+        // ie we don't want to use SVGR for CSS files...
+        .issuer(/\.[jt]sx?$/)
+        .use("svgr-loader")
+          // .loader(require.resolve('@svgr/webpack'))
+          .loader(require.resolve("@study/vita-preset-loader/dist/svgr"))
+          .options({
+            prettier: false,
+            // 启用 svgo 优化
+            svgo: true,
+            svgoConfig: {
+              plugins: [
+                {
+                  name: 'preset-default',
+                  params: {
+                    overrides: {
+                      removeTitle: false,
+                    },
+                  },
+                },
+                'prefixIds',
+              ],
+            },
+            titleProp: true,
+            ref: true,
+          })
+          .end()
+        .end()
+      .oneOf("asset")
+        .use("url-loader")
+          .loader(require.resolve("url-loader"))
+          .options({
+            name: "static/media/[name].[hash].[ext]",
+          })
+          .end()
+        .end();
 
   config.module
     .rule("font")
-    .test(/\.(woff|woff2|ttf|eot|svg)$/)
+    .test(/\.(woff|woff2|ttf|eot)$/)
     .exclude
       .add(/node_modules/)
       .end()
@@ -201,7 +219,7 @@ export async function configFactory({
 
   config.module
     .rule("image")
-    .test(/\.(png|jpg|gif|jpeg|ico|cur)$/)
+    .test(/\.(png|jpg|gif|jpeg|ico|cur|webp|avif)$/)
     .exclude
       .add(/node_modules/)
       .end()
@@ -420,11 +438,14 @@ export async function configFactory({
     .minimizer("terser")
       .use(TerserPlugin, [
         {
+          // 配置参考：
+          // https://github.com/facebook/docusaurus/blob/main/packages/docusaurus/src/webpack/utils.ts#L356
           minify: TerserPlugin.terserMinify,
           extractComments: false,
+          parallel: true,
           terserOptions: {
             parse: {
-              ecma: 8,
+              ecma: 2020,
             },
             compress: {
               ecma: 5,
@@ -459,6 +480,20 @@ export async function configFactory({
             test: /[\\/]node_modules[\\/]@study[\\/]/,
             name: "commons",
             chunks: "all",
+          },
+          // 针对 core-js polyfill 的缓存组
+          polyfill: {
+            test: /[\\/]node_modules[\\/]core-js[\\/]/,
+            name: "polyfill",
+            chunks: "all",
+          },
+          // 针对 @babel/runtime 的缓存组
+          helpers: {
+            test: /[\\/]node_modules[\\/]@babel\/runtime[\\/]/,
+            name: "helpers",
+            chunks: "all",
+            // @babel/runtime 有可能因为体积过小不分包，这里强制进行分包
+            enforce: true,
           },
           // 针对 antd 的缓存组
           vendor: {

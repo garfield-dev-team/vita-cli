@@ -1,7 +1,10 @@
-import "@study/vita-app-polyfill";
+import "core-js/stable";
 import * as React from "react";
 import ReactDOM from "react-dom/client";
-// import { Button } from "antd";
+// @ts-ignore
+import SvgSmile from "./assets/icon_test.svg";
+
+console.log("===", SvgSmile);
 
 const { useState, useCallback } = React;
 
@@ -11,6 +14,11 @@ const App: React.FC = () => {
   console.log("===", process.env.REACT_APP_ENV);
   console.log("===", process.env.REACT_APP_KE);
   console.log("===", process.env.REACT_APP_STUDY);
+
+  const fetchData = async () => {
+    await Promise.resolve();
+    console.log("===");
+  };
 
   const handleClick = useCallback(() => {
     console.log(state);
@@ -33,12 +41,16 @@ const App: React.FC = () => {
     console.log(arr[Symbol.iterator]());
 
     Array.isArray([1, 2]);
+    fetchData();
+
+    console.log(aaa ?? arr);
   }, []);
 
   return (
     <>
       <div>测试内容2333</div>
       <button onClick={handleClick}>测试按钮</button>
+      <SvgSmile />
       {/* <Button type="primary" onClick={handleClick}>
         测试按钮
       </Button> */}
