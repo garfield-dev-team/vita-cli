@@ -1,10 +1,10 @@
 import "core-js/stable";
 import * as React from "react";
 import ReactDOM from "react-dom/client";
-// @ts-ignore
-import SvgSmile from "./assets/icon_test.svg";
+// import { ReactComponent as SvgSmile } from "@/assets/icon_test.svg";
+import "./style.css";
 
-console.log("===", SvgSmile);
+// console.log("===", SvgSmile);
 
 const { useState, useCallback } = React;
 
@@ -50,7 +50,8 @@ const App: React.FC = () => {
     <>
       <div>测试内容2333</div>
       <button onClick={handleClick}>测试按钮</button>
-      <SvgSmile />
+      <div className="icon-svg-smile"></div>
+      {/* <SvgSmile /> */}
       {/* <Button type="primary" onClick={handleClick}>
         测试按钮
       </Button> */}

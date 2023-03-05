@@ -178,6 +178,8 @@ export async function configFactory({
           // .loader(require.resolve('@svgr/webpack'))
           .loader(require.resolve("@study/vita-preset-loader/dist/svgr"))
           .options({
+            // 始终用 named export 方式导出 React 组件
+            exportType: "named",
             prettier: false,
             // 启用 svgo 优化
             svgo: true,
@@ -200,12 +202,7 @@ export async function configFactory({
           .end()
         .end()
       .oneOf("asset")
-        .use("url-loader")
-          .loader(require.resolve("url-loader"))
-          .options({
-            name: "static/media/[name].[hash].[ext]",
-          })
-          .end()
+        .type("asset")
         .end();
 
   config.module
@@ -476,10 +473,10 @@ export async function configFactory({
       chunks: "all",
       ...(codeSplitting && {
           cacheGroups: {
-          // 针对业务组件库的缓存组
-          commons: {
-            test: /[\\/]node_modules[\\/]@study[\\/]/,
-            name: "commons",
+          // 针对 React 框架的缓存组
+          framework: {
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+            name: "framework",
             chunks: "all",
           },
           // 针对 core-js polyfill 的缓存组
@@ -496,8 +493,14 @@ export async function configFactory({
             // @babel/runtime 有可能因为体积过小不分包，这里强制进行分包
             enforce: true,
           },
+          // 针对业务组件库的缓存组
+          commons: {
+            test: /[\\/]node_modules[\\/]@study[\\/]/,
+            name: "commons",
+            chunks: "all",
+          },
           // 针对 antd 的缓存组
-          vendor: {
+          lib: {
             test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
             chunks: "all",
             // 让每个依赖拥有单独的文件和 hash
