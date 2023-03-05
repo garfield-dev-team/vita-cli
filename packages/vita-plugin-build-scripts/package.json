@@ -33,7 +33,7 @@
     "dotenv-expand": "10.0.0",
     "eslint": "8.34.0",
     "eslint-webpack-plugin": "4.0.0",
-    "fork-ts-checker-webpack-plugin": "6.5.2",
+    "fork-ts-checker-webpack-plugin": "7.3.0",
     "fs-extra": "11.1.0",
     "html-webpack-plugin": "5.5.0",
     "less-loader": "11.1.0",
@@ -60,6 +60,7 @@
   },
   "peerDependencies": {
     "@babel/runtime": ">=7.20.13",
-    "cac": ">=6.7.14"
+    "cac": ">=6.7.14",
+    "core-js": "*"
   }
 }

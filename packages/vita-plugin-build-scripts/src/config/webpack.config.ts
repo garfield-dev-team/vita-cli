@@ -417,9 +417,7 @@ export async function configFactory({
                 { file: "**/src/setupTests.*" },
               ],
             },
-            logger: {
-              infrastructure: "silent",
-            },
+            logger: "webpack-infrastructure",
           },
         ])
         .end();
