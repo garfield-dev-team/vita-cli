@@ -9,6 +9,9 @@ export type IBuildOptions = {
   // 启用内置的分包策略，将 `@study` 前缀依赖视为业务组件库单独拆包，antd 每个组件单独拆包，优化缓存
   // 默认开启，可以配置 `false` fallback 到 Webpack 默认缓存组策略
   codeSplitting?: boolean;
+  // 是否启用 CSS splitting
+  // 默认开启，某些场景下启用会导致样式冗余问题，建议关闭
+  cssSplitting?: boolean;
   // 是否启用 automatic JSX
   // 默认启用，可以配置 `false` fallback 到 classic JSX
   enableNewJsxTransform?: boolean;

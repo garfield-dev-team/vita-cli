@@ -3,6 +3,7 @@ module.exports = {
   build: {
     // analyze: true,
     // codeSplitting: false,
+    // cssSplitting: false,
     // enableNewJsxTransform: false,
     proxy: {},
     theme: {},

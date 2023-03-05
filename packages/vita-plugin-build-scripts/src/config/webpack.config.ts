@@ -54,6 +54,7 @@ export async function configFactory({
   env,
   analyze = false,
   codeSplitting = true,
+  cssSplitting = true,
   enableNewJsxTransform = true,
   forceInlineStyle = false,
   proxy,
@@ -310,7 +311,8 @@ export async function configFactory({
             {
               filename: "static/css/[name].[contenthash:8].css",
               chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
-              // 参考 UMI 4、docusaurus 配置
+              // 参考 UMI 4、docusaurus 配置：
+              // https://github.com/facebook/docusaurus/blob/main/packages/docusaurus/src/webpack/base.ts#L244
               // 解决用了 antd 组件库之后，抽提样式冲突问题
               ignoreOrder: true,
             },
@@ -471,9 +473,9 @@ export async function configFactory({
     .runtimeChunk("single")
     .splitChunks({
       chunks: "all",
-      ...(codeSplitting && {
-          cacheGroups: {
-          // 针对 React 框架的缓存组
+      cacheGroups: {
+        ...(codeSplitting && {
+          // 针对 React 运行时的缓存组
           framework: {
             test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
             name: "framework",
@@ -494,14 +496,14 @@ export async function configFactory({
             enforce: true,
           },
           // 针对业务组件库的缓存组
-          commons: {
-            test: /[\\/]node_modules[\\/]@study[\\/]/,
-            name: "commons",
-            chunks: "all",
-          },
-          // 针对 antd 的缓存组
+          // commons: {
+          //   test: /[\\/]node_modules[\\/]@study[\\/]/,
+          //   name: "commons",
+          //   chunks: "all",
+          // },
+          // 针对业务组件库和 antd 的缓存组
           lib: {
-            test: /[\\/]node_modules[\\/](antd|@ant-design|rc-.*?)[\\/]/,
+            test: /[\\/]node_modules[\\/](@study|antd|@ant-design|rc-.*?)[\\/]/,
             chunks: "all",
             // 让每个依赖拥有单独的文件和 hash
             name: ({ context }: { context: string }) => {
@@ -515,20 +517,22 @@ export async function configFactory({
                 .replace(/\+/g, '_')}`;
             },
           },
+        }),
+        ...(!cssSplitting && {
           // 将样式抽提到一个单文件中
           // 解决 code-split CSS 加载顺序不同造成样式不一致问题
           // 推荐使用 CSS-in-JS，对 Code-Splitting 和 Tree-Shaking 都比较友好
-          // styles: {
-          //   name: "styles",
-          //   // necessary to ensure async chunks are also extracted
-          //   test: (m: { type: string }) => {
-          //     return /css\/mini-extract/.test(m.type)
-          //   },
-          //   chunks: "all",
-          //   enforce: true
-          // },
-        },
-      })
+          styles: {
+            name: "styles",
+            // necessary to ensure async chunks are also extracted
+            test: (m: { type: string }) => {
+              return /css\/mini-extract/.test(m.type)
+            },
+            chunks: "all",
+            enforce: true
+          },
+        }),
+      },
     });
 
   if (chainWebpack) {
