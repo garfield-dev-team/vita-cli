@@ -1,4 +1,4 @@
-# @study/vita-app-polyfill
+# @study/vita-preset-loader
 
 ## 2.0.0
 
@@ -10,12 +10,5 @@
 
 ### Patch Changes
 
-- 37133a5: 版本更新
 - 37133a5: 修复 svg 图标打包问题
 - 版本更新
-
-## 1.0.9
-
-### Patch Changes
-
-- 增加新的包,统一版本号

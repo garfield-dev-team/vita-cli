@@ -1,5 +1,24 @@
 # @study/vita-plugin-yapi
 
+## 2.0.0
+
+### Minor Changes
+
+- 版本更新
+
+### Patch Changes
+
+- Updated dependencies
+  - @study/vita-shared-utils@2.0.0
+
+## 1.0.10
+
+### Patch Changes
+
+- 版本更新
+- Updated dependencies
+  - @study/vita-shared-utils@1.0.10
+
 ## 1.0.9
 
 ### Patch Changes

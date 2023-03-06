@@ -1,5 +1,30 @@
 # @study/vita-plugin-build-scripts
 
+## 2.0.0
+
+### Minor Changes
+
+- 版本更新
+
+### Patch Changes
+
+- Updated dependencies
+  - @study/vita-config-eslint@2.0.0
+  - @study/vita-preset-loader@2.0.0
+  - @study/vita-preset-babel@2.0.0
+
+## 1.0.10
+
+### Patch Changes
+
+- 37133a5: 修复 svg 图标打包问题
+- 版本更新
+- Updated dependencies [37133a5]
+- Updated dependencies
+  - @study/vita-preset-loader@1.0.10
+  - @study/vita-config-eslint@1.0.10
+  - @study/vita-preset-babel@1.0.10
+
 ## 1.0.9
 
 ### Patch Changes
