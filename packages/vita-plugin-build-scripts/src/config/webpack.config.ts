@@ -95,7 +95,16 @@ export async function configFactory({
   config.entry("main").add(appIndexJs);
 
   // devtool
-  config.devtool(shouldUseSourceMap ? "eval-cheap-module-source-map" : false);
+  config.devtool(
+    isEnvProduction
+      ? shouldUseSourceMap
+        ? 'source-map'
+        : false
+      // 开发环境用 eval-cheap-module-source-map 会存在一个问题
+      // 没办法通过 source 面板调试第三方库的代码
+      // 还是改用 cheap-module-source-map
+      : isEnvDevelopment && 'cheap-module-source-map',
+  );
 
   // output
   config.output
@@ -532,6 +541,12 @@ export async function configFactory({
         }),
       },
     });
+
+  // performance
+  // 防止某个 chunk 分包体积超过 250kb 导致 CI 构建报错
+  // https://webpack.js.org/configuration/performance/#performancehints
+  config
+    .performance.hints(false);
 
   if (chainWebpack) {
     chainWebpack(config, env);
