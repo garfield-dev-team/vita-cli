@@ -1,5 +1,11 @@
 # @study/vita-plugin-build-scripts
 
+## 2.0.1
+
+### Patch Changes
+
+- 3d43ba7: 版本更新
+
 ## 2.0.0
 
 ### Minor Changes
