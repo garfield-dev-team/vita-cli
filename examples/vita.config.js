@@ -10,7 +10,12 @@ module.exports = {
     chainWebpack(config) {
       config.mode("development");
       config.devtool(false);
+
       config.optimization.minimize(false);
+
+      config.experiments({
+        topLevelAwait: true,
+      });
 
       // config.externals({
       //   react: "React",
