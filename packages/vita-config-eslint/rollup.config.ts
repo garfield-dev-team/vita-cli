@@ -9,7 +9,11 @@ export default defineConfig({
     {
       dir: "dist",
       format: "cjs",
-      exports: "named",
+      // ESLint 继承配置的时候，需要用 CJS 的 `module.exports`
+      // 如果通过 `exports.default` 导出会报错，因此这里需要关闭该配置
+      // 建议模块如果只有一个导出的时候，推荐 default export
+      // 当模块有多个导出，推荐全部用 named export
+      // exports: "named",
       preserveModules: true,
       preserveModulesRoot: "src",
     },

@@ -1,20 +1,51 @@
 import { WebpackEnvEnum } from "./constants";
 import type { IBabelConfigCtx } from "@study/vita-plugin-build-scripts";
 
-const getBabelPreset = ({
-  env,
-  useTypeScript,
-  enableNewJsxTransform,
-}: IBabelConfigCtx) => {
+/**
+ * 配置参考：
+ * https://github.com/umijs/umi/blob/master/packages/babel-preset-umi/src/index.ts
+ * https://babeljs.io/docs/babel-preset-env#bugfixes
+ */
+export default (_context: any, opts: IBabelConfigCtx) => {
+  const { env, useTypeScript, enableNewJsxTransform } = opts;
+
   const isEnvProduction = env === WebpackEnvEnum.PRODUCTION;
 
   return {
     presets: [
-      useTypeScript && "@babel/preset-typescript",
+      useTypeScript && [
+        "@babel/preset-typescript",
+        {
+          allowNamespaces: true,
+          allowDeclareFields: true,
+          // Why false?
+          // 如果为 true，babel 只删除 import type 语句，会保留其他通过 import 引入的 type
+          // 这些 type 引用走到 webpack 之后，就会报错
+          // type-only imports 有啥作用
+          // 当 import 一个类型的时候，编译器要移除这个 import，需要判断该 import 是否有副作用
+          // 如果用 import type 导入，等于手动告诉编译器，该 import 没有副作用，可以直接移除
+          onlyRemoveTypeImports: false,
+          // 优化常量枚举
+          // 由于 Babel 是单文件编译（相当于 TS 启用 `--isolatedModules` 配置）
+          // 正常情况下，Babel 会将常量枚举转为普通枚举
+          // 启用该配置后，如果常量枚举是非导出字段，则直接按常量枚举编译
+          // 如果常量枚举是导出字段，则转译为 JS 对象
+          optimizeConstEnums: true,
+        },
+      ],
       [
         "@babel/preset-env",
         {
-          // 保留 ES Module 语法，支持 Tree-Shaking
+          // 启用 `@babel/preset-modules` 特性，默认 false
+          // 将高版本语法，转换为目标浏览器兼容的最接近的语法
+          // 可以极大减小编译后的体积
+          // Babel 8 将默认启用该配置
+          bugfixes: true,
+          // 更兼容 spec，但会变慢，所以不开
+          spec: false,
+          // 推荐用 top level 的 assumptions 配置
+          loose: false,
+          // 保留 ES Module 语法，交给 webpack 处理，用来支持 Tree-Shaking
           modules: false,
           // 使用 entry 方式，按照 target 配置全量引入 polyfill、以及提案阶段的 API
           // 需要注意，直接配置 `useBuiltIns: "entry"` 不会引入 polyfill
@@ -62,7 +93,3 @@ const getBabelPreset = ({
     ].filter(Boolean),
   };
 };
-
-export default function (api: any, opts: IBabelConfigCtx) {
-  return getBabelPreset(opts);
-}

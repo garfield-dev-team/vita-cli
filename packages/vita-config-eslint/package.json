@@ -1,6 +1,6 @@
 {
   "name": "@study/vita-config-eslint",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/typings/index.d.ts",
@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/eslint-parser": "7.19.1",
     "@rushstack/eslint-patch": "1.2.0",
+    "@study/vita-preset-babel": "workspace:*",
     "@typescript-eslint/eslint-plugin": "5.52.0",
     "@typescript-eslint/parser": "5.52.0",
     "eslint-plugin-react": "7.32.2",

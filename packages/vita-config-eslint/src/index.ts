@@ -1,4 +1,4 @@
-import rules, { typescript as tsRules } from "./recommended";
+import { baseRule, typescript as tsRules } from "./recommended";
 import "./setup";
 
 /**
@@ -7,11 +7,11 @@ import "./setup";
  * 缺点是不支持 type-aware 的 linting 规则（我们通常也不会用他们）
  */
 export default {
-  parser: require.resolve('@babel/eslint-parser'),
-  plugins: ['react', 'react-hooks'],
+  parser: require.resolve("@babel/eslint-parser"),
+  plugins: ["react", "react-hooks"],
   settings: {
     react: {
-      version: 'detect',
+      version: "detect",
     },
   },
   env: {
@@ -20,13 +20,34 @@ export default {
     es2022: true,
     jest: true,
   },
-  rules,
+  rules: baseRule,
   overrides: [
     {
-      parser: require.resolve('@typescript-eslint/parser'),
-      plugins: ['@typescript-eslint/eslint-plugin'],
-      files: ['**/*.{ts,tsx}'],
+      parser: require.resolve("@typescript-eslint/parser"),
+      plugins: ["@typescript-eslint/eslint-plugin"],
+      files: ["**/*.{ts,tsx}"],
       rules: tsRules,
     },
   ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    babelOptions: {
+      babelrc: false,
+      configFile: false,
+      browserslistConfigFile: false,
+      presets: [
+        [
+          require.resolve("@study/vita-preset-babel"),
+          {
+            env: "development",
+            useTypeScript: true,
+            enableNewJsxTransform: true,
+          },
+        ],
+      ],
+    },
+    requireConfigFile: false,
+  },
 };

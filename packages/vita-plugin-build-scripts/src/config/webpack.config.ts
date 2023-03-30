@@ -50,6 +50,17 @@ export type IBabelConfigCtx = {
   enableNewJsxTransform: boolean;
 };
 
+function isModuleCSS(module: { type: string }) {
+  return (
+    // mini-css-extract-plugin
+    module.type === `css/mini-extract` ||
+    // extract-css-chunks-webpack-plugin (old)
+    module.type === `css/extract-chunks` ||
+    // extract-css-chunks-webpack-plugin (new)
+    module.type === `css/extract-css-chunks`
+  )
+}
+
 export async function configFactory({
   env,
   analyze = false,
@@ -109,11 +120,20 @@ export async function configFactory({
   // output
   config.output
     .path(appBuild)
+    // Initial Chunk 文件名
+    // 其中 name 为 chunkId，对于 Initial Chunk 来说是固定的
+    // 取决于 entry 配置，如果不配置默认 main
     .filename(
       isEnvProduction
         ? "static/js/[name].[contenthash:8].js"
         : "static/js/[name].js",
     )
+    // Async Chunk 和 SplitChunks 分包的文件名
+    // 其中 name 为 chunkId
+    // 如果用 SplitChunks 分包，则取决于 SplitChunks 配置
+    // 如果用 `import()` 做 Code-Splitting 分包，取决于 `optimization.chunkIds` 配置
+    // Webpack 内部有一套默认生成策略，开发环境下用 named chunkId，基于文件路径，便于调试产物
+    // 生产环境下用 deterministic chunkId，一般是三位数字哈希，有利于生产环境缓存复用
     .chunkFilename(
       isEnvProduction
         ? "static/js/[name].[contenthash:8].chunk.js"
@@ -121,7 +141,10 @@ export async function configFactory({
     )
     // .assetModuleFilenamet("static/media/[name].[hash][ext]")
     .publicPath(process.env.PUBLIC_URL || "auto")
+    // Assets Module 打包静态资源的文件名
     .set("assetModuleFilename", "static/media/[name].[hash][ext]")
+    // 选择更加快速的哈希函数，
+    // v5.54.0+ 支持 xxhash64
     .set("hashFunction", "xxhash64");
     // .clean(true);
 
@@ -137,6 +160,7 @@ export async function configFactory({
       })
       .end()
     .extensions
+      // 常用后缀放在前面可提升匹配速度
       .merge([".ts", ".tsx", ".js", ".jsx", ".json", ".wasm"])
       .end();
 
@@ -183,6 +207,8 @@ export async function configFactory({
 
         // We don't want to use SVGR loader for non-React source code
         // ie we don't want to use SVGR for CSS files...
+        // 通过 issuer 判断，如果 JS、TS 等模块引用 SVG，则转为 React 组件
+        // 如果 CSS 模块引用 SVG，则用 Assets Module 将其视为静态资源进行打包
         .issuer(/\.[jt]sx?$/)
         .use("svgr-loader")
           // .loader(require.resolve('@svgr/webpack'))
@@ -253,7 +279,11 @@ export async function configFactory({
     .proxy(proxy)
     // .open(true)
     // 支持历史模式路由重定向
-    .historyApiFallback(true)
+    .historyApiFallback({
+      disableDotRule: true,
+      // 本地开发路由支持路径前缀，与线上部署保持一致
+      index: process.env.PUBLIC_URL || "/",
+    })
     // 本地开发支持 local 域名访问，便于透传 Cookie
     .allowedHosts
       .add("all")
@@ -479,7 +509,15 @@ export async function configFactory({
       .end()
     .runtimeChunk("single")
     .splitChunks({
-      chunks: "all",
+      // 配置参考：
+      // https://github.com/vercel/next.js/blob/canary/packages/next/src/build/webpack-config.ts#L1556
+      // https://github.com/umijs/umi/blob/master/packages/preset-umi/src/features/codeSplitting/codeSplitting.ts
+
+      // 虽然 `chunks: 'all'` 非常强大，但是由于该配置允许在 async chunks 和 non-async chunks 之间共享 chunks
+      // 因此 async chunks 抽提出来的公共 chunk 会变成同步加载（内联到 index.html 里面），影响首屏性能
+      // 单页应用建议 `chunks: 'async'`，也可以在 `cacheGroups` 里面配置更细粒度的共享策略
+      // 多入口打包可以配置 `chunks: 'all'`，可以在多个 initial chunks 共享 chunks
+      chunks: "async",
       cacheGroups: {
         ...(codeSplitting && {
           // 针对 React 运行时的缓存组
@@ -487,29 +525,64 @@ export async function configFactory({
             test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
             name: "framework",
             chunks: "all",
+            priority: 40,
           },
           // 针对 core-js polyfill 的缓存组
           polyfill: {
             test: /[\\/]node_modules[\\/]core-js[\\/]/,
             name: "polyfill",
             chunks: "all",
+            priority: 40,
           },
           // 针对 @babel/runtime 的缓存组
           helpers: {
             test: /[\\/]node_modules[\\/]@babel\/runtime[\\/]/,
             name: "helpers",
             chunks: "all",
+            priority: 40,
             // @babel/runtime 有可能因为体积过小不分包，这里强制进行分包
             enforce: true,
           },
-          // 针对业务组件库的缓存组
-          // commons: {
-          //   test: /[\\/]node_modules[\\/]@study[\\/]/,
-          //   name: "commons",
-          //   chunks: "all",
-          // },
-          // 针对业务组件库和 antd 的缓存组
+          // create a new cache group for assets larger than 160kb
           lib: {
+            test(module: any) {
+              return (
+                !isModuleCSS(module) &&
+                module.size() > 160000 &&
+                /node_modules[/\\]/.test(module.identifier())
+              );
+            },
+            name(module: any) {
+              const rawRequest =
+                module.rawRequest &&
+                module.rawRequest.replace(/^@(\w+)[/\\]/, '$1-');
+              if (rawRequest) {
+                return `${
+                  // when `require()` a package with relative path,
+                  // need remove leading `.` and `/`, otherwise will not found `.js` file
+                  // e.g. require('../../lib/codemirror')
+                  rawRequest.replace(/\./g, '_').replace(/\//g, '-')
+                }-lib`;
+              }
+
+              const identifier = module.identifier();
+              const trimmedIdentifier = /(?:^|[/\\])node_modules[/\\](.*)/.exec(
+                identifier,
+              );
+              const processedIdentifier =
+                trimmedIdentifier &&
+                trimmedIdentifier[1].replace(/^@(\w+)[/\\]/, '$1-');
+
+              return `${processedIdentifier || identifier}-lib`;
+            },
+            priority: 30,
+            // continue to split smaller chunks within this cache group
+            minChunks: 1,
+            reuseExistingChunk: true,
+            chunks: 'async',
+          },
+          // 针对业务组件库和 antd 的缓存组
+          shared: {
             test: /[\\/]node_modules[\\/](@study|antd|@ant-design|rc-.*?)[\\/]/,
             chunks: "all",
             // 让每个依赖拥有单独的文件和 hash
