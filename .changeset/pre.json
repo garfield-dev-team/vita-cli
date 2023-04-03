@@ -13,6 +13,7 @@
     "@study/vita-shared-utils": "2.0.0"
   },
   "changesets": [
+    "brown-pugs-rhyme",
     "empty-cameras-try",
     "smart-jeans-sleep",
     "thirty-dingos-poke"

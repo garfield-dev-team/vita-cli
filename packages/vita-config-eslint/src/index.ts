@@ -21,14 +21,14 @@ export default {
     jest: true,
   },
   rules: baseRule,
-  // overrides: [
-  //   {
-  //     parser: require.resolve("@typescript-eslint/parser"),
-  //     plugins: ["@typescript-eslint/eslint-plugin"],
-  //     files: ["**/*.{ts,tsx}"],
-  //     rules: tsRules,
-  //   },
-  // ],
+  overrides: [
+    {
+      parser: require.resolve("@typescript-eslint/parser"),
+      plugins: ["@typescript-eslint/eslint-plugin"],
+      files: ["**/*.{ts,tsx}"],
+      rules: tsRules,
+    },
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
