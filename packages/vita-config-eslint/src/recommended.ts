@@ -70,6 +70,7 @@ export const baseRule = {
 
   // config-plugin-react-hooks rules
   "react-hooks/rules-of-hooks": 2,
+  "react-hooks/exhaustive-deps": 1,
 };
 
 /**
@@ -90,7 +91,13 @@ export const typescript = {
   "@typescript-eslint/no-redeclare": 2,
   "@typescript-eslint/no-this-alias": 2,
   "@typescript-eslint/no-unused-expressions": 2,
-  "@typescript-eslint/no-unused-vars": 2,
+  "@typescript-eslint/no-unused-vars": [
+    2,
+    {
+      // 当参数的变量名以下划线 _ 开头的时候，跳过 `no-unused-vars` 检查
+      argsIgnorePattern: "^_",
+    },
+  ],
   "@typescript-eslint/no-use-before-define": 2,
   "@typescript-eslint/no-useless-constructor": 2,
   "@typescript-eslint/triple-slash-reference": 2,
