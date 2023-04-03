@@ -1,5 +1,13 @@
 # @study/vita-config-eslint
 
+## 2.0.3
+
+### Patch Changes
+
+- 优化 ESLint 配置
+- Updated dependencies
+  - @study/vita-plugin-build-scripts@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes
