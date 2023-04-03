@@ -11,6 +11,8 @@
     "changeset": "changeset add",
     "version-packages": "changeset version",
     "changeset-publish": "cross-env npm_config_registry=http://rnpm.hz.netease.com/ changeset publish",
+    "changeset:canary:enter": "changeset pre enter beta",
+    "changeset:canary:exit": "changeset pre exit",
     "prerelease": "pnpm version-packages && pnpm build:all",
     "release": "pnpm changeset-publish && pnpm clean",
     "preinstall": "npx only-allow pnpm"
