@@ -1,0 +1,16 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "examples": "1.0.0",
+    "@study/vita-app-polyfill": "2.0.0",
+    "@study/vita-cli": "2.0.0",
+    "@study/vita-config-eslint": "2.0.3",
+    "@study/vita-plugin-build-scripts": "2.0.3",
+    "@study/vita-plugin-yapi": "2.0.1",
+    "@study/vita-preset-babel": "2.0.2",
+    "@study/vita-preset-loader": "2.0.0",
+    "@study/vita-shared-utils": "2.0.0"
+  },
+  "changesets": []
+}
