@@ -1,5 +1,14 @@
 # @study/vita-config-eslint
 
+## 2.0.4-beta.0
+
+### Patch Changes
+
+- fde53be: 优化 ESLint 配置
+- Updated dependencies [fde53be]
+  - @study/vita-plugin-build-scripts@2.0.4-beta.0
+  - @study/vita-preset-babel@2.0.4-beta.0
+
 ## 2.0.3
 
 ### Patch Changes
