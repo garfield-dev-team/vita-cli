@@ -1,5 +1,5 @@
 import { baseRule, typescript as tsRules } from "./recommended";
-import "./setup";
+// import "./setup";
 
 /**
  * 参考 UMI 4 方案
