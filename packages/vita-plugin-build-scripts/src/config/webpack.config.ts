@@ -384,23 +384,6 @@ export async function configFactory({
               resolvePluginsRelativeTo: __dirname,
               baseConfig: {
                 extends: [require.resolve("@study/vita-config-eslint")],
-                parserOptions: {
-                  ecmaFeatures: {
-                    jsx: true,
-                  },
-                  babelOptions: {
-                    babelrc: false,
-                    configFile: false,
-                    browserslistConfigFile: false,
-                    presets: [
-                      [
-                        require.resolve("@study/vita-preset-babel"),
-                        babelConfigContext,
-                      ]
-                    ],
-                  },
-                  requireConfigFile: false,
-                },
                 rules: {
                   ...(!enableNewJsxTransform && {
                     'react/react-in-jsx-scope': 'error',

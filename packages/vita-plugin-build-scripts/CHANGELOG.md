@@ -1,5 +1,13 @@
 # @study/vita-plugin-build-scripts
 
+## 2.0.4-beta.5
+
+### Patch Changes
+
+- 配置优化
+  - @study/vita-config-eslint@2.0.4-beta.5
+  - @study/vita-preset-babel@2.0.4-beta.5
+
 ## 2.0.4-beta.4
 
 ### Patch Changes
