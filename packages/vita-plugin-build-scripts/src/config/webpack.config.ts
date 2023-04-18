@@ -12,6 +12,7 @@ import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+// @ts-ignore
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import Webpackbar from "webpackbar";
 // @ts-ignore
@@ -297,7 +298,11 @@ export async function configFactory({
   // plugins
   config
     .plugin("webpackbar")
-      .use(Webpackbar)
+      .use(Webpackbar, [
+        {
+          name: "client",
+        },
+      ])
       .end()
     .plugin("html")
       .use(HtmlWebpackPlugin, [

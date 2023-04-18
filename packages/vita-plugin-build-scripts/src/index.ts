@@ -56,6 +56,18 @@ class BuildScriptsPlugin {
           });
         },
       );
+
+    cli
+      .command("build-ssg", "prerender using static site generation")
+      .option("--mode <mode>", `[string] set env mode`)
+      .action(async ({ mode = "production" }: { mode?: string }) => {
+        loadEnvironFromEnvFiles(mode);
+        const module = await import("./scripts/build-ssg");
+        await module.build({
+          ...options,
+          ...(mode !== undefined && { mode }),
+        });
+      });
   }
 }
 
