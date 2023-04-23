@@ -100,6 +100,9 @@ export async function configFactory({
 
   // mode
   config.mode(isEnvDevelopment ? "development" : "production");
+  // 生产环境打包，遇到报错直接退出进程
+  // 本地开发 watch mode 不建议启用，否则一旦遇到报错 Webpack 就会退出打包，影响开发体验
+  config.bail(isEnvProduction);
   config.stats("errors-warnings");
   config.infrastructureLogging({ level: "error" });
 
