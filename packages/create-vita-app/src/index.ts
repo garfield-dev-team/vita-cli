@@ -21,7 +21,7 @@ async function main() {
     { cwd: workDir },
   );
   consola.info("[2/2] Initializing the git repository...");
-  workDir = join(workDir, "new-project");
+  workDir = join(workDir, project);
   process.chdir(workDir);
   await fs.unlink(join(workDir, ".git"));
   await execa("git init", { cwd: workDir });
