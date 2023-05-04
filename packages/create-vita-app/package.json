@@ -1,0 +1,24 @@
+{
+  "name": "@study/create-vita-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "create-vita-app": "./bin/cli.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/prompts": "2.4.4",
+    "consola": "2.15.3",
+    "prompts": "2.4.2"
+  }
+}

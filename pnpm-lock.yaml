@@ -87,6 +87,18 @@ importers:
         specifier: ^18.0.10
         version: 18.0.10
 
+  packages/create-vita-app:
+    dependencies:
+      '@types/prompts':
+        specifier: 2.4.4
+        version: 2.4.4
+      consola:
+        specifier: 2.15.3
+        version: 2.15.3
+      prompts:
+        specifier: 2.4.2
+        version: 2.4.2
+
   packages/vita-app-polyfill:
     dependencies:
       core-js:
@@ -2775,6 +2787,13 @@ packages:
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+    dev: false
+
+  /@types/prompts@2.4.4:
+    resolution: {integrity: sha512-p5N9uoTH76lLvSAaYSZtBCdEXzpOOufsRjnhjVSrZGXikVGHX9+cc9ERtHRV4hvBKHyZb1bg4K+56Bd2TqUn4A==}
+    dependencies:
+      '@types/node': 18.11.18
+      kleur: 3.0.3
     dev: false
 
   /@types/prop-types@15.7.5:
