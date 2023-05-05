@@ -56,6 +56,13 @@ async function main() {
   );
   workDir = join(workDir, project);
   process.chdir(workDir);
+  const pkg = await fs.readFile(join(workDir, "package.json"), "utf-8");
+  const content = JSON.parse(pkg);
+  content.name = project;
+  await fs.writeFile(
+    join(workDir, "package.json"),
+    JSON.stringify(content, null, 2),
+  );
   await fs.rm(join(workDir, ".git"), { recursive: true });
   consola.info("[2/3] Installing dependencies...");
   await execa("pnpm install", { cwd: workDir });
