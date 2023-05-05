@@ -7,15 +7,17 @@
 | Package                          | Version          | Desc                                       |
 | -------------------------------- | ---------------- | ------------------------------------------ |
 | @study/vita-cli                  | v1.0.9           | 云课堂公共 cli 工具                        |
-| @study/vita-app-polyfill         | v1.0.9           | language features polyfill                 |
-| @study/vita-config-eslint        | v1.0.9           | ESLint 配置                                |
-| @study/vita-plugin-build-scripts | v1.0.9           | 构建 CSR 应用插件                          |
+| @study/create-vita-app           | v2.0.4           | 脚手架工具，可以快速创建项目模板           |
+| @study/vita-app-polyfill         | v2.0.1           | language features polyfill                 |
+| @study/vita-config-eslint        | v2.0.4           | ESLint 配置                                |
+| @study/vita-plugin-build-scripts | v2.0.4           | 构建 CSR 应用插件                          |
 | @study/vita-plugin-build-ssr     | Work In Progress | 构建 SSR 应用插件                          |
 | @study/vita-plugin-generator     | Work In Progress | 微生成器插件                               |
 | @study/vita-plugin-react-native  | Work In Progress | 构建 RN 工程插件                           |
-| @study/vita-plugin-yapi          | v1.0.9           | 基于 Yapi 接口文档自动生成 TS 类型定义插件 |
-| @study/vita-preset-babel         | v1.0.9           | Babel 配置                                 |
-| @study/vita-shared-utils         | v1.0.9           | Vita-cli 公共包                            |
+| @study/vita-plugin-yapi          | v2.0.2           | 基于 Yapi 接口文档自动生成 TS 类型定义插件 |
+| @study/vita-preset-babel         | v2.0.4           | Babel 配置                                 |
+| @study/vita-preset-loader        | v2.0.1           | svg-loader、swc-loader                     |
+| @study/vita-shared-utils         | v2.0.1           | Vita-cli 公共包                            |
 
 ## Why
 

@@ -1,5 +1,25 @@
 # @study/vita-plugin-build-scripts
 
+## 2.0.4
+
+### Patch Changes
+
+- cca5fcc: 优化 ESLint 配置
+- 4d7ba42: 优化 ESLint 配置
+- 491ad84: 优化 ESLint 配置
+- fde53be: 优化 ESLint 配置
+- aea4c8a: 优化 ESLint 配置
+- 53fcc48: 配置优化
+- Updated dependencies [cca5fcc]
+- Updated dependencies [4d7ba42]
+- Updated dependencies [491ad84]
+- Updated dependencies [fde53be]
+- Updated dependencies [aea4c8a]
+  - @study/vita-config-eslint@2.0.4
+  - @study/vita-preset-babel@2.0.4
+  - @study/vita-cli@2.0.1
+  - @study/vita-preset-loader@2.0.1
+
 ## 2.0.4-beta.5
 
 ### Patch Changes

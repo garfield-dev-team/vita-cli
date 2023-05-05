@@ -1,5 +1,12 @@
 # @study/vita-plugin-yapi
 
+## 2.0.2
+
+### Patch Changes
+
+- @study/vita-cli@2.0.1
+- @study/vita-shared-utils@2.0.1
+
 ## 2.0.1
 
 ### Patch Changes
