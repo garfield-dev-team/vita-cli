@@ -23,7 +23,7 @@ async function main() {
   consola.info("[2/2] Initializing the git repository...");
   workDir = join(workDir, project);
   process.chdir(workDir);
-  await fs.unlink(join(workDir, ".git"));
+  await fs.rm(join(workDir, ".git"), { recursive: true });
   await execa("git init", { cwd: workDir });
   consola.success("Successfully create the project!");
 }
