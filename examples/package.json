@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "vita serve --port 3000 --open",
-    "build:aaa": "rimraf node_modules/.cache && vita build",
+    "build:aaa": "rimraf node_modules/.cache && vita build --lib",
     "build:staging": "vita build --mode staging",
     "build:prod": "CI=true && vita build",
     "build:type": "vita yapi"

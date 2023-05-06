@@ -1,5 +1,7 @@
+// @ts-check
+
 module.exports = {
-  /** @type {import("@study/vita-plugin-build-scripts").IBuildOptions} */
+  /** @type {import("@study/vita-plugin-build-scripts").PublicBuildOptions} */
   build: {
     // analyze: true,
     // codeSplitting: false,

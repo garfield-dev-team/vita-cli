@@ -12,7 +12,7 @@ import openBrowser from "react-dev-utils/openBrowser";
 import { configFactory } from "../config/webpack.config";
 import { appPackageJson } from "../config/paths";
 import { WebpackEnvEnum } from "../utils/constants";
-import { IBuildOptions } from "../types/global";
+import { PublicBuildOptions } from "../types/global";
 
 export type IDevServerOpts = {
   host?: string;
@@ -22,7 +22,7 @@ export type IDevServerOpts = {
   mode?: string;
 };
 
-type IServerOptions = IBuildOptions & IDevServerOpts;
+type IServerOptions = PublicBuildOptions & IDevServerOpts;
 
 async function runServer({
   host,

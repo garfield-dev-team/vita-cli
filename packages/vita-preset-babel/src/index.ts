@@ -7,9 +7,10 @@ import type { IBabelConfigCtx } from "@study/vita-plugin-build-scripts";
  * https://babeljs.io/docs/babel-preset-env#bugfixes
  */
 export default (_context: any, opts: IBabelConfigCtx) => {
-  const { env, useTypeScript, enableNewJsxTransform } = opts;
+  const { env, lib = false, useTypeScript, enableNewJsxTransform } = opts;
 
   const isEnvProduction = env === WebpackEnvEnum.PRODUCTION;
+  const isLibrary = lib;
 
   return {
     presets: [
@@ -40,7 +41,7 @@ export default (_context: any, opts: IBabelConfigCtx) => {
           // 将高版本语法，转换为目标浏览器兼容的最接近的语法
           // 可以极大减小编译后的体积
           // Babel 8 将默认启用该配置
-          bugfixes: true,
+          bugfixes: !isLibrary ? true : false,
           // 更兼容 spec，但会变慢，所以不开
           spec: false,
           // 推荐用 top level 的 assumptions 配置
@@ -51,9 +52,9 @@ export default (_context: any, opts: IBabelConfigCtx) => {
           // 需要注意，直接配置 `useBuiltIns: "entry"` 不会引入 polyfill
           // 还需要在入口文件中加一句 `import "core-js/stable";`
           // 建议根据适配目标合理配置 `browserslist`，以减小 polyfill 体积
-          useBuiltIns: "entry",
+          useBuiltIns: !isLibrary ? "entry" : false,
           // 使用最新版本的 core-js
-          corejs: require("core-js/package.json").version,
+          corejs: !isLibrary ? require("core-js/package.json").version : false,
         },
       ],
       [

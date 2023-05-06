@@ -8,7 +8,7 @@ import printBuildError from "react-dev-utils/printBuildError";
 import { configFactory } from "../config/webpack.config";
 import { appBuild, appPublic, appHtml, appIndexJs } from "../config/paths";
 import { WebpackEnvEnum } from "../utils/constants";
-import { IBuildOptions } from "../types/global";
+import { PublicBuildOptions } from "../types/global";
 
 const logger = {
   error: (...args: any[]) => {
@@ -67,7 +67,7 @@ function compile(config: Configuration[]): Promise<void> {
   });
 }
 
-async function runBuild(options: IBuildOptions) {
+async function runBuild(options: PublicBuildOptions) {
   console.log("Creating an optimized production build...");
 
   process.env.NODE_ENV = "production";
@@ -111,7 +111,7 @@ function copyPublicFolder() {
   });
 }
 
-export async function build(options: IBuildOptions & { mode?: string }) {
+export async function build(options: PublicBuildOptions & { mode?: string }) {
   fsExtra.emptyDirSync(appBuild);
   copyPublicFolder();
   try {

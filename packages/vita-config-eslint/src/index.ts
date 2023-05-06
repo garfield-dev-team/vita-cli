@@ -42,6 +42,7 @@ export default {
           require.resolve("@study/vita-preset-babel"),
           {
             env: "development",
+            lib: false,
             useTypeScript: true,
             enableNewJsxTransform: true,
           },

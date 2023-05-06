@@ -101,9 +101,16 @@ function copyPublicFolder() {
   });
 }
 
-export async function build(options: IBuildOptions & { mode?: string }) {
+export async function build(
+  options: IBuildOptions & {
+    mode?: string;
+  },
+) {
   fsExtra.emptyDirSync(appBuild);
-  copyPublicFolder();
+  // 库模式下无需复制 public 目录
+  if (!options.lib) {
+    copyPublicFolder();
+  }
   try {
     await runBuild(options);
   } catch (err) {
