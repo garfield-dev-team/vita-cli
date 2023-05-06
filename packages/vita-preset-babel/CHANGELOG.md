@@ -1,5 +1,12 @@
 # @study/vita-preset-babel
 
+## 2.0.5-beta.0
+
+### Patch Changes
+
+- Updated dependencies [25907fa]
+  - @study/vita-plugin-build-scripts@2.0.5-beta.0
+
 ## 2.0.4
 
 ### Patch Changes
