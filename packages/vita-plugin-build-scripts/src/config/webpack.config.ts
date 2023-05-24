@@ -592,6 +592,10 @@ export async function configFactory({
         ...(!cssSplitting && {
           // 将样式抽提到一个单文件中
           // 解决 code-split CSS 加载顺序不同造成样式不一致问题
+          // 为啥需要抽提样式，如果 CSS 打入 JS 包里面，会丢失浏览器很多缓存的好处
+          // 比如只改了 CSS 代码，导致 JS 内容变化，浏览器会连带 JS 重新加载
+          // 实际上对于现在成熟的前端应用来说，缓存不应该在 js/css 这个维度上区分
+          // 而是应该按照 组件 来区分，可以将一个组件的 JS、CSS 打入一个包
           // 推荐使用 CSS-in-JS，对 Code-Splitting 和 Tree-Shaking 都比较友好
           styles: {
             name: "styles",
