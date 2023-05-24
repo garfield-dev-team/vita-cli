@@ -1,12 +1,12 @@
 import type { CAC } from "cac";
 import type { IBabelConfigCtx } from "./config/webpack.config";
 import type { IDevServerOpts } from "./scripts/serve";
-import type { PublicBuildOptions } from "./types/global";
+import type { IBuildOptions } from "./types/global";
 import { WebpackEnvEnum } from "./utils/constants";
 import { loadEnvironFromEnvFiles } from "./utils/helpers";
 
 class BuildScriptsPlugin {
-  apply(cli: CAC, options: PublicBuildOptions) {
+  apply(cli: CAC, options: IBuildOptions) {
     cli
       .command("serve", "start development server")
       .option("--host [host]", `[string] specify hostname`)
@@ -38,16 +38,13 @@ class BuildScriptsPlugin {
     cli
       .command("build", "create an optimized production build")
       .option("--analyze", `[boolean] build and run bundle analyzer`)
-      .option("--lib", `[boolean] use lib mode for building ui library`)
       .option("--mode <mode>", `[string] set env mode`)
       .action(
         async ({
           analyze,
-          lib,
           mode = "production",
         }: {
           analyze?: true;
-          lib?: true;
           mode?: string;
         }) => {
           loadEnvironFromEnvFiles(mode);
@@ -55,7 +52,6 @@ class BuildScriptsPlugin {
           await module.build({
             ...options,
             ...(analyze !== undefined && { analyze }),
-            ...(lib !== undefined && { lib }),
             ...(mode !== undefined && { mode }),
           });
         },
@@ -75,6 +71,6 @@ class BuildScriptsPlugin {
   }
 }
 
-export { PublicBuildOptions, WebpackEnvEnum, IBabelConfigCtx };
+export { IBuildOptions, WebpackEnvEnum, IBabelConfigCtx };
 
 export default BuildScriptsPlugin;

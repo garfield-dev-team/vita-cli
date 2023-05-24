@@ -66,7 +66,7 @@ $ vita build
 配置文件：
 
 ```ts
-export type PublicBuildOptions = {
+export type IBuildOptions = {
   // 是否启用 webpack-bundle-analyzer
   // 默认值 false
   analyze?: boolean;

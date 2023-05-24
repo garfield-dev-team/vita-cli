@@ -47,7 +47,6 @@ export type ICSSRuleConfigCtx = {
 
 export type IBabelConfigCtx = {
   env: WebpackEnvEnum;
-  lib: boolean;
   useTypeScript: boolean;
   enableNewJsxTransform: boolean;
 };
@@ -66,7 +65,6 @@ function isModuleCSS(module: { type: string }) {
 export async function configFactory({
   env,
   analyze = false,
-  lib = false,
   codeSplitting = true,
   cssSplitting = true,
   enableNewJsxTransform = true,
@@ -96,7 +94,6 @@ export async function configFactory({
 
   const babelConfigContext: IBabelConfigCtx = {
     env,
-    lib,
     useTypeScript,
     enableNewJsxTransform
   }
@@ -309,37 +306,30 @@ export async function configFactory({
           name: "client",
         },
       ])
-      .end();
-
-  // 业务工程打包，将静态资源内联到 HTML 文件中
-  if (!lib) {
-    config
-      .plugin("html")
-        .use(HtmlWebpackPlugin, [
-          {
-            template: appHtml,
-            title: "React App",
-            filename: "index.html",
-            ...(isEnvProduction && {
-              minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true,
-                useShortDoctype: true,
-                removeEmptyAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                keepClosingSlash: true,
-                minifyJS: true,
-                minifyCSS: true,
-                minifyURLs: true,
-              },
-            }),
-          },
-        ])
-        .end();
-  }
-
-  config
+      .end()
+    .plugin("html")
+      .use(HtmlWebpackPlugin, [
+        {
+          template: appHtml,
+          title: "React App",
+          filename: "index.html",
+          ...(isEnvProduction && {
+            minify: {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              useShortDoctype: true,
+              removeEmptyAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              keepClosingSlash: true,
+              minifyJS: true,
+              minifyCSS: true,
+              minifyURLs: true,
+            },
+          }),
+        },
+      ])
+      .end()
     .plugin("define")
       .use(webpack.DefinePlugin, [
         stringifiedEnv,

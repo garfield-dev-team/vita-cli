@@ -2,12 +2,7 @@ import Config from "webpack-5-chain";
 import webpack from "webpack";
 import type { WebpackEnvEnum } from "../utils/constants";
 
-export type InternalBuildOptions = {
-  // 是否启用库模式，仅在 build 时有效
-  lib?: boolean;
-};
-
-export type PublicBuildOptions = {
+export type IBuildOptions = {
   // 是否启用 webpack-bundle-analyzer
   // 默认值 false
   analyze?: boolean;
@@ -32,5 +27,3 @@ export type PublicBuildOptions = {
   chainWebpack?: (config: Config, env: WebpackEnvEnum) => void;
   modifyWebpackConfig?: webpack.Configuration;
 };
-
-export type IBuildOptions = PublicBuildOptions & InternalBuildOptions;
