@@ -394,6 +394,8 @@ export async function configFactory({
                 extends: [require.resolve("@study/vita-config-eslint")],
                 rules: {
                   ...(!enableNewJsxTransform && {
+                    // 注意，Classic JSX 需要配置此规则
+                    // Automatic JSX 无需此规则，但是对 React 版本有要求（React 17+）
                     'react/react-in-jsx-scope': 'error',
                   }),
                 },

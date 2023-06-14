@@ -98,6 +98,11 @@ export const typescript = {
       argsIgnorePattern: "^_",
     },
   ],
+  // 不允许声明 any 类型
+  // 注意 TypeScript 只提供 `--noImplicitAny` 选项用于避免隐式 any 问题
+  // 但是无法解决开发者手动声明 any 规避类型检查的问题
+  // 这种情况可以通过 @typescript-eslint 的规则进行检查
+  "@typescript-eslint/no-explicit-any": 2,
   "@typescript-eslint/no-use-before-define": 2,
   "@typescript-eslint/no-useless-constructor": 2,
   "@typescript-eslint/triple-slash-reference": 2,
