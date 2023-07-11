@@ -25,7 +25,7 @@ export default defineConfig({
   plugins: [
     resolve(),
     externals({
-      devDeps: false,
+      devDeps: true,
     }),
     typescript({
       compilerOptions: {

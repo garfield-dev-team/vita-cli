@@ -16,9 +16,14 @@
     "@svgr/core": "6.5.1",
     "@svgr/plugin-jsx": "6.5.1",
     "@svgr/plugin-svgo": "6.5.1",
-    "esbuild": "0.17.11"
+    "esbuild": "0.17.11",
+    "svg-parser": "2.0.4"
+  },
+  "peerDependencies": {
+    "html-webpack-plugin": "5.5.0",
+    "webpack": ">=5.88.1"
   },
   "devDependencies": {
-    "webpack": "5.75.0"
+    "webpack": "5.88.1"
   }
 }

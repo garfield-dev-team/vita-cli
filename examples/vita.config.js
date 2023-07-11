@@ -1,3 +1,7 @@
+// @ts-check
+
+const InlineSvgPlugin = require("@study/vita-preset-loader/dist/InlineSvgPlugin");
+
 module.exports = {
   /** @type {import("@study/vita-plugin-build-scripts").IBuildOptions} */
   build: {
@@ -13,9 +17,20 @@ module.exports = {
 
       config.optimization.minimize(false);
 
-      config.experiments({
-        topLevelAwait: true,
-      });
+      config.module.rules.delete("svg");
+      config.module
+        .rule("svg")
+        .test(/\.svg$/)
+        .use("svg-icon-loader")
+        .loader(
+          require.resolve("@study/vita-preset-loader/dist/svgIconLoader"),
+        );
+
+      config.plugin("svg-icon").use(InlineSvgPlugin).after("html");
+
+      // config.experiments({
+      //   topLevelAwait: true,
+      // });
 
       // config.externals({
       //   react: "React",
