@@ -1,5 +1,12 @@
 # @study/vita-plugin-yapi
 
+## 2.0.5-beta.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @study/vita-cli@2.0.5-beta.3
+
 ## 2.0.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@study/vita-plugin-yapi",
-  "version": "2.0.2",
+  "version": "2.0.5-beta.3",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/typings/index.d.ts",
@@ -22,6 +22,6 @@
     "cac": "^6.7.14"
   },
   "peerDependencies": {
-    "@study/vita-cli": "*"
+    "@study/vita-cli": "2.0.5-beta.3"
   }
 }

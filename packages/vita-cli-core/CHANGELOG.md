@@ -1,5 +1,11 @@
 # @study/vita-cli
 
+## 2.0.5-beta.3
+
+### Patch Changes
+
+- 版本更新
+
 ## 2.0.1
 
 ## 2.0.0
