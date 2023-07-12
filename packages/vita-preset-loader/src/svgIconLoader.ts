@@ -3,8 +3,10 @@
 import path from "node:path";
 import { parse } from "svg-parser";
 
+const re = /<svg[^>]*>(.*?)<\/svg>/s;
+
 module.exports = function (content: string) {
-  this.cacheable && this.cacheable(false);
+  this.cacheable && this.cacheable();
 
   const plugin = this.svgIconPlugin;
   // `this.resourcePath` 拿到的是绝对路径
@@ -12,23 +14,34 @@ module.exports = function (content: string) {
   const parsed = parse(content);
   const { fill, height, width, viewBox } = parsed.children[0].properties;
 
-  const inner = content.replace(/<svg[^>]*>(.*?)<\/svg>/s, "$1").trim();
-  const wrapped = `<symbol id="${fileName}" viewBox="${viewBox}" height="${height}" width="${width}" fill="${fill}">${inner}</symbol>`;
+  const inner = content.replace(re, "$1").trim();
+  const wrapped = `<symbol id="${fileName}" viewBox="${viewBox}">${inner}</symbol>`;
 
   plugin.putIcon(fileName, wrapped);
 
+  // TODO: 支持 automatic JSX transform
   this.callback(
     null,
-    `import * as React from "react";
+    `import _extends from "@babel/runtime/helpers/extends";
+  import * as React from "react";
 var ReactComponent = function ReactComponent(props) {
   return /*#__PURE__*/ React.createElement(
     "svg",
-    props,
+    _extends(
+      {
+        viewBox: "${viewBox}",
+        height: ${height},
+        width: ${width},
+        fill: "${fill}"
+      },
+      props
+    ),
     /*#__PURE__*/ React.createElement("use", {
       xlinkHref: "#${fileName}"
     })
   );
 };
-export { ReactComponent };`,
+export { ReactComponent };
+  `,
   );
 };

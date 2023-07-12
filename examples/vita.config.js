@@ -22,10 +22,10 @@ module.exports = {
         .rule("svg")
         .test(/\.svg$/)
         .use("svg-icon-loader")
-        .loader(
-          require.resolve("@study/vita-preset-loader/dist/svgIconLoader"),
-        );
+        .loader(InlineSvgPlugin.loader);
 
+      // 此插件依赖 HtmlWebpackPlugin 的事件钩子
+      // 需要确保在 HtmlWebpackPlugin 之后注册
       config.plugin("svg-icon").use(InlineSvgPlugin).after("html");
 
       // config.experiments({

@@ -8,6 +8,7 @@ import svgo from "@svgr/plugin-svgo";
 import { transform as defaultEsbuildTransform } from "esbuild";
 import { normalize } from "path";
 import { callbackify } from "util";
+// @ts-ignore
 import type { LoaderContext } from "webpack";
 
 const tranformSvg = callbackify(
@@ -48,6 +49,7 @@ function svgrLoader(this: LoaderContext<Config>, contents: string): void {
   if (!previousExport) {
     tranformSvg(contents, options, state, callback);
   } else {
+    // @ts-ignore
     this.fs.readFile(this.resourcePath, (err, result) => {
       if (err) {
         callback(err);
