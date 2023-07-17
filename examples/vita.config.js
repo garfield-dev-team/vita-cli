@@ -22,7 +22,23 @@ module.exports = {
         .rule("svg")
         .test(/\.svg$/)
         .use("svg-icon-loader")
-        .loader(InlineSvgPlugin.loader);
+        .loader(InlineSvgPlugin.loader)
+        .options({
+          enableNewJsxTransform: true,
+          svgoConfig: {
+            plugins: [
+              {
+                name: "preset-default",
+                params: {
+                  overrides: {
+                    removeTitle: false,
+                  },
+                },
+              },
+              "prefixIds",
+            ],
+          },
+        });
 
       // 此插件依赖 HtmlWebpackPlugin 的事件钩子
       // 需要确保在 HtmlWebpackPlugin 之后注册
