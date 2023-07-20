@@ -1,5 +1,11 @@
 # @study/vita-preset-loader
 
+## 2.0.5-beta.6
+
+### Patch Changes
+
+- 版本更新
+
 ## 2.0.1
 
 ## 2.0.0

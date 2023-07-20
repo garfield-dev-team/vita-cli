@@ -14,7 +14,9 @@
     "@study/vita-shared-utils": "2.0.1"
   },
   "changesets": [
+    "brown-insects-knock",
     "five-days-taste",
+    "friendly-islands-wave",
     "quick-cooks-suffer",
     "serious-insects-remember",
     "small-paws-rhyme"
