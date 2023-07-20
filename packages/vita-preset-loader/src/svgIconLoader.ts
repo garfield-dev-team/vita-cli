@@ -44,7 +44,7 @@ var ReactComponent = function ReactComponent(props) {
     _objectSpread(
       _objectSpread(
         {
-          viewBox: "${viewBox}",
+          viewBox: typeof ${viewBox} !== "undefined" ? "${viewBox}" : undefined,
           height: ${height},
           width: ${width},
           fill: "${fill}"
@@ -80,7 +80,7 @@ module.exports = function (content: string) {
   const { fill, height, width, viewBox } = parsed.children[0].properties;
 
   const inner = result.data.replace(re, "$1").trim();
-  const wrapped = `<symbol id="${fileName}" viewBox="${viewBox}">${inner}</symbol>`;
+  const wrapped = `<symbol id="${fileName}">${inner}</symbol>`;
 
   plugin.putIcon(fileName, wrapped);
 
