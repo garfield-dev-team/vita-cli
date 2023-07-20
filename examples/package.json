@@ -29,7 +29,6 @@
     "@study/vita-cli": "workspace:*",
     "@study/vita-config-eslint": "workspace:*",
     "@study/vita-plugin-build-scripts": "workspace:*",
-    "@study/vita-preset-loader": "workspace:*",
     "antd": "^5.1.6",
     "core-js": "3.29.0",
     "less": "^4.1.3",

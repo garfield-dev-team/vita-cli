@@ -18,6 +18,9 @@ export type IBuildOptions = {
   // 生产环境打包是否通过 style-loader 强制内联样式
   // 默认值 false，仅在某些特殊场景下启用
   forceInlineStyle?: boolean;
+  // 是否启用 SVG symbol 方式打包
+  // 默认值 false，启用后可以优化 JS bundle 体积
+  enableSVGSymbol?: boolean;
   // 配置代理功能，仅在 dev 时有效
   proxy?: {};
   // 提供给 less-loader 的主题变量

@@ -13,6 +13,8 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 // @ts-ignore
+import InlineSvgPlugin from "@study/vita-preset-loader/dist/InlineSvgPlugin";
+// @ts-ignore
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import Webpackbar from "webpackbar";
 // @ts-ignore
@@ -69,6 +71,7 @@ export async function configFactory({
   cssSplitting = true,
   enableNewJsxTransform = true,
   forceInlineStyle = false,
+  enableSVGSymbol = false,
   proxy,
   theme = {},
   chainWebpack,
@@ -216,13 +219,18 @@ export async function configFactory({
         .issuer(/\.[jt]sx?$/)
         .use("svgr-loader")
           // .loader(require.resolve('@svgr/webpack'))
-          .loader(require.resolve("@study/vita-preset-loader/dist/svgr"))
+          .loader(
+            enableSVGSymbol
+              ? InlineSvgPlugin.loader
+              : require.resolve("@study/vita-preset-loader/dist/svgr")
+          )
           .options({
             // 始终用 named export 方式导出 React 组件
             exportType: "named",
             prettier: false,
             // 启用 svgo 优化
             svgo: true,
+            enableNewJsxTransform,
             svgoConfig: {
               plugins: [
                 {
@@ -335,6 +343,16 @@ export async function configFactory({
         stringifiedEnv,
       ])
       .end();
+
+  if (enableSVGSymbol) {
+    // 此插件依赖 HtmlWebpackPlugin 的事件钩子
+    // 需要确保在 HtmlWebpackPlugin 之后注册
+    config
+      .plugin("svg-icon")
+        .use(InlineSvgPlugin)
+        .after("html")
+        .end();
+  }
 
   if (isEnvDevelopment) {
     config

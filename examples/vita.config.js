@@ -1,7 +1,5 @@
 // @ts-check
 
-const InlineSvgPlugin = require("@study/vita-preset-loader/dist/InlineSvgPlugin");
-
 module.exports = {
   /** @type {import("@study/vita-plugin-build-scripts").IBuildOptions} */
   build: {
@@ -9,6 +7,7 @@ module.exports = {
     // codeSplitting: false,
     // cssSplitting: false,
     // enableNewJsxTransform: false,
+    enableSVGSymbol: true,
     proxy: {},
     theme: {},
     chainWebpack(config) {
@@ -17,32 +16,32 @@ module.exports = {
 
       config.optimization.minimize(false);
 
-      config.module.rules.delete("svg");
-      config.module
-        .rule("svg")
-        .test(/\.svg$/)
-        .use("svg-icon-loader")
-        .loader(InlineSvgPlugin.loader)
-        .options({
-          enableNewJsxTransform: true,
-          svgoConfig: {
-            plugins: [
-              {
-                name: "preset-default",
-                params: {
-                  overrides: {
-                    removeTitle: false,
-                  },
-                },
-              },
-              "prefixIds",
-            ],
-          },
-        });
+      // config.module.rules.delete("svg");
+      // config.module
+      //   .rule("svg")
+      //   .test(/\.svg$/)
+      //   .use("svg-icon-loader")
+      //   .loader(InlineSvgPlugin.loader)
+      //   .options({
+      //     enableNewJsxTransform: true,
+      //     svgoConfig: {
+      //       plugins: [
+      //         {
+      //           name: "preset-default",
+      //           params: {
+      //             overrides: {
+      //               removeTitle: false,
+      //             },
+      //           },
+      //         },
+      //         "prefixIds",
+      //       ],
+      //     },
+      //   });
 
       // 此插件依赖 HtmlWebpackPlugin 的事件钩子
       // 需要确保在 HtmlWebpackPlugin 之后注册
-      config.plugin("svg-icon").use(InlineSvgPlugin).after("html");
+      // config.plugin("svg-icon").use(InlineSvgPlugin).after("html");
 
       // config.experiments({
       //   topLevelAwait: true,
