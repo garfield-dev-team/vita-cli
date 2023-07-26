@@ -45,6 +45,7 @@ export type ICSSRuleConfigCtx = {
   forceInlineStyle: boolean;
   theme: {};
   shouldUseSourceMap: boolean;
+  useTailwind: boolean;
 };
 
 export type IBabelConfigCtx = {
@@ -72,6 +73,7 @@ export async function configFactory({
   enableNewJsxTransform = true,
   forceInlineStyle = false,
   enableSVGSymbol = false,
+  useTailwind = false,
   proxy,
   theme = {},
   chainWebpack,
@@ -93,6 +95,7 @@ export async function configFactory({
     forceInlineStyle,
     theme,
     shouldUseSourceMap,
+    useTailwind,
   };
 
   const babelConfigContext: IBabelConfigCtx = {

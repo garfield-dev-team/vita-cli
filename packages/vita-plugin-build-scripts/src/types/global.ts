@@ -21,6 +21,7 @@ export type IBuildOptions = {
   // 是否启用 SVG symbol 方式打包
   // 默认值 false，启用后可以优化 JS bundle 体积
   enableSVGSymbol?: boolean;
+  useTailwind?: boolean;
   // 配置代理功能，仅在 dev 时有效
   proxy?: {};
   // 提供给 less-loader 的主题变量

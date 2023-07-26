@@ -73,7 +73,7 @@ const createRuleConfig = ({ theme }: ICSSRuleConfigCtx): IConfig[] => ([
 ]);
 
 const createBaseRule = (
-  { env, config, forceInlineStyle, shouldUseSourceMap }: ICSSRuleConfigCtx,
+  { env, config, forceInlineStyle, shouldUseSourceMap, useTailwind }: ICSSRuleConfigCtx,
   { name, test, exclude, importLoaders, isCSSModules }: IConfig
 ) => {
   const isEnvDevelopment = env === WebpackEnvEnum.DEVELOPMENT;
@@ -124,6 +124,7 @@ const createBaseRule = (
           ident: 'postcss',
           config: false,
           plugins: [
+            ...(useTailwind ? ["tailwindcss"] : []),
             'postcss-flexbugs-fixes',
             [
               'postcss-preset-env',

@@ -1,6 +1,6 @@
 {
   "name": "@study/vita-config-eslint",
-  "version": "2.0.5-beta.6",
+  "version": "2.0.5-beta.7",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/typings/index.d.ts",
@@ -23,7 +23,7 @@
     "eslint-plugin-react-hooks": "4.6.0"
   },
   "peerDependencies": {
-    "@study/vita-plugin-build-scripts": "2.0.5-beta.6",
+    "@study/vita-plugin-build-scripts": "2.0.5-beta.7",
     "eslint": ">=8.34.0"
   }
 }
