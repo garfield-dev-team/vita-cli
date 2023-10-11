@@ -51,7 +51,7 @@ async function main() {
   let workDir = process.cwd();
   consola.info("[1/3] Cloning the default template...");
   await execa(
-    `git clone -b feature/tpl_djc_20230504 --depth=1 https://github.com/orgainzation/repo.git ${project}`,
+    `git clone -b feature/tpl_djc_20230504 --depth=1 https://github.com/organization/repo.git ${project}`,
     { cwd: workDir },
   );
   workDir = join(workDir, project);
