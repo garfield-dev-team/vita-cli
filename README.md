@@ -6,7 +6,7 @@
 
 | Package                          | Version          | Desc                                       |
 | -------------------------------- | ---------------- | ------------------------------------------ |
-| @study/vita-cli                  | v1.0.9           | 云课堂公共 cli 工具                        |
+| @study/vita-cli                  | v1.0.9           | cli 核心库                                 |
 | @study/create-vita-app           | v2.0.4           | 脚手架工具，可以快速创建项目模板           |
 | @study/vita-app-polyfill         | v2.0.1           | language features polyfill                 |
 | @study/vita-config-eslint        | v2.0.4           | ESLint 配置                                |
@@ -96,7 +96,7 @@ $ pnpm run build:all
 
 - [ ] 接入 Changeset 发包流程
 - [ ] 完善 `@study/vita-plugin-yapi` 插件，尝试解决 README 中最后两个 TODO
-- [ ] 开发 `@study/vita-plugin-react-native` 插件，接入 React Native 打包流程，逻辑参考这个工程：https://g.hz.netease.com/ykt-adult-front/cicd/yktci
+- [ ] 开发 `@study/vita-plugin-react-native` 插件，接入 React Native 打包流程
 - [ ] 开发 `@study/vita-plugin-generator` 插件，可以参考 UMI 的微生成器方案：https://umijs.org/docs/guides/generator
 - [ ] 开发 `@study/vita-plugin-build-ssr` 插件，调研 SSR 打包流程、相关工具链
 - [ ] 调研 docusaurus 作为文档网站
